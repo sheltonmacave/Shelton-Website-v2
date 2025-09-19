@@ -1,0 +1,28 @@
+---
+import Layout from './Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Site pessoal de Shelton Macave, desenvolvedor e IT profissional" } = Astro.props;
+---
+
+<Layout title={title}>
+  <meta slot="head" name="description" content={description} />
+  
+  <div class="min-h-screen flex flex-col">
+    <Navbar />
+    
+    <main class="flex-grow">
+      <slot />
+    </main>
+    
+        <Footer />
+  </div>
+</Layout>
+  </body>
+</html>

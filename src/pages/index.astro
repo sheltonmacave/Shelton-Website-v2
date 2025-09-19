@@ -1,11 +1,115 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import PageLayout from '../layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+import sheltonLogo from '../assets/SWv2.png';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<PageLayout title="Página Inicial - Shelton Macave">
+  <div class="container mx-auto px-4 py-12">
+    <section id="hero" class="flex flex-col items-center text-center mb-20">
+      <div class="flex justify-center w-full">
+        <Image src={sheltonLogo} width={200} height={200} alt="Shelton Macave" class="mb-8" />
+      </div>
+      
+      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-main">
+        Shelton Macave
+      </h1>
+      
+      <p class="text-lg md:text-xl text-second/90 max-w-2xl mb-8">
+        Desenvolvedor, Designer e IT Profissional especializado em criar experiências digitais inovadoras e de alto impacto.
+      </p>
+      
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="/sobre" class="bg-main hover:bg-main/90 text-white px-6 py-3 rounded-md transition-all transform hover:scale-105">
+          Conheça meu trabalho
+        </a>
+        <a href="/contactos" class="border border-main/30 hover:border-main text-main hover:bg-main/10 px-6 py-3 rounded-md transition-all transform hover:scale-105">
+          Entre em contacto
+        </a>
+      </div>
+    </section>
+    
+    <section id="destaque" class="my-16">
+      <h2 class="text-3xl font-grotesk text-main text-center mb-10">Projetos em Destaque</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Cards de projeto aqui -->
+        <div class="bg-black/20 rounded-lg overflow-hidden border border-main/10 hover:border-main/30 transition-all">
+          <div class="h-48 bg-main/10 flex items-center justify-center">
+            <span class="text-main font-grotesk">Imagem do Projeto</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-grotesk text-main mb-2">Website Corporativo</h3>
+            <p class="text-second/90 mb-4">Redesign completo de um site institucional com foco em experiência do usuário.</p>
+            <a href="/galeria" class="text-main hover:underline inline-flex items-center">
+              Ver detalhes
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <div class="bg-black/20 rounded-lg overflow-hidden border border-main/10 hover:border-main/30 transition-all">
+          <div class="h-48 bg-main/10 flex items-center justify-center">
+            <span class="text-main font-grotesk">Imagem do Projeto</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-grotesk text-main mb-2">Aplicativo Mobile</h3>
+            <p class="text-second/90 mb-4">Desenvolvimento de app para gestão de tarefas com sincronização em nuvem.</p>
+            <a href="/galeria" class="text-main hover:underline inline-flex items-center">
+              Ver detalhes
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <div class="bg-black/20 rounded-lg overflow-hidden border border-main/10 hover:border-main/30 transition-all">
+          <div class="h-48 bg-main/10 flex items-center justify-center">
+            <span class="text-main font-grotesk">Imagem do Projeto</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-grotesk text-main mb-2">Sistema ERP</h3>
+            <p class="text-second/90 mb-4">Implementação de sistema de gestão empresarial para pequenas empresas.</p>
+            <a href="/galeria" class="text-main hover:underline inline-flex items-center">
+              Ver detalhes
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</PageLayout>
+
+<script>
+  import { gsap } from 'gsap';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    // Animações para a seção hero
+    gsap.from('#hero > *', { 
+      opacity: 0, 
+      y: 20,
+      stagger: 0.2,
+      duration: 0.8,
+      ease: 'power2.out'
+    });
+    
+    // Animações para os cards de projeto
+    gsap.from('#destaque .bg-black/20', { 
+      opacity: 0, 
+      y: 30,
+      stagger: 0.15,
+      duration: 0.6,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#destaque',
+        start: 'top 80%'
+      }
+    });
+  });
+</script>

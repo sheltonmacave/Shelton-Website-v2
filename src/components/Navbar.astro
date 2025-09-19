@@ -1,0 +1,510 @@
+---
+import { Image } from 'astro:assets';
+import sheltonLogo from '../assets/SWv2.png';
+---
+
+<header id="navbar" class="sticky top-0 z-50 w-full border-b border-second/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 touch-none">
+  <div class="container flex h-20 items-center justify-between px-6 md:px-16">
+    <!-- Logo on the left -->
+    <div class="flex">
+      <a href="/" class="flex items-center">
+        <Image src={sheltonLogo} alt="Shelton Macave" width={60} height={60} class="mr-2" />
+      </a>
+    </div>
+    
+    <!-- Navigation Menu on the right -->
+    <div class="relative group">
+      <!-- Menu Trigger Button -->
+      <button id="menuTrigger" class="inline-flex items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-transparent hover:shadow-md focus:outline-none active:translate-y-0.5">
+        Menu
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </button>
+      
+      <!-- Dropdown Content -->
+      <div id="menuContent" class="hidden absolute right-0 mt-7 w-[90vw] max-w-[320px] md:max-w-[500px] rounded-md border border-second/20 bg-background/80 p-4 shadow-lg backdrop-blur-md backdrop-saturate-150 supports-[backdrop-filter]:bg-background/60">
+        
+        <ul class="grid gap-3">
+          <!-- Home Page -->
+          <li>
+            <a href="/" class="flex items-start gap-3 select-none rounded-md p-3 transition-all duration-200 hover:bg-main/10 hover:text-main">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-main flex-shrink-0 mt-0.5">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <div>
+                <div class="text-sm font-medium leading-none text-white">Página Inicial</div>
+                <p class="mt-1 line-clamp-2 text-sm text-white/70">
+                  Página principal com visão geral do meu trabalho e projetos.
+                </p>
+              </div>
+            </a>
+          </li>
+          
+          <!-- About Me -->
+          <li>
+            <a href="/sobre" class="flex items-start gap-3 select-none rounded-md p-3 transition-all duration-200 hover:bg-main/10 hover:text-main">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-main flex-shrink-0 mt-0.5">
+                <circle cx="12" cy="8" r="5"></circle>
+                <path d="M20 21a8 8 0 1 0-16 0"></path>
+              </svg>
+              <div>
+                <div class="text-sm font-medium leading-none text-white">Sobre Mim</div>
+                <p class="mt-1 line-clamp-2 text-sm text-white/70">
+                  Trajetória, formação acadêmica e experiência profissional.
+                </p>
+              </div>
+            </a>
+          </li>
+          
+          <!-- Career -->
+          <li>
+            <a href="/carreiras" class="flex items-start gap-3 select-none rounded-md p-3 transition-all duration-200 hover:bg-main/10 hover:text-main">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-main flex-shrink-0 mt-0.5">
+                <rect width="20" height="14" x="2" y="7" rx="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <div>
+                <div class="text-sm font-medium leading-none text-white">Carreiras</div>
+                <p class="mt-1 line-clamp-2 text-sm text-white/70">
+                  Experiência profissional, formação e serviços oferecidos.
+                </p>
+              </div>
+            </a>
+          </li>
+          
+          <!-- Gallery -->
+          <li>
+            <a href="/galeria" class="flex items-start gap-3 select-none rounded-md p-3 transition-all duration-200 hover:bg-main/10 hover:text-main">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-main flex-shrink-0 mt-0.5">
+                <rect width="18" height="14" x="3" y="3" rx="2" ry="2"></rect>
+                <circle cx="9" cy="9" r="2"></circle>
+                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+              </svg>
+              <div>
+                <div class="text-sm font-medium leading-none text-white">Galeria</div>
+                <p class="mt-1 line-clamp-2 text-sm text-white/70">
+                  Projetos, UI designs e ilustrações dos meus trabalhos.
+                </p>
+              </div>
+            </a>
+          </li>
+          
+          <!-- Contact -->
+          <li>
+            <a href="/contactos" class="flex items-start gap-3 select-none rounded-md p-3 transition-all duration-200 hover:bg-main/10 hover:text-main">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-main flex-shrink-0 mt-0.5">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <div>
+                <div class="text-sm font-medium leading-none text-white">Contactos</div>
+                <p class="mt-1 line-clamp-2 text-sm text-white/70">
+                  Formulário de contacto e informações para propostas e colaborações.
+                </p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Toggle dropdown menu
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuTrigger = document.getElementById('menuTrigger');
+    const menuContent = document.getElementById('menuContent');
+    
+    if (menuTrigger && menuContent) {
+      const parentGroup = menuTrigger.closest('.group');
+      
+      if (parentGroup) {
+        // Positioning logic for mobile
+        const adjustMenuPosition = () => {
+          // Reset any previous position first
+          menuContent.style.right = '';
+          
+          // On small screens, adjust position to be centered
+          if (window.innerWidth < 640) {
+            const buttonRect = menuTrigger.getBoundingClientRect();
+            const buttonCenter = buttonRect.left + buttonRect.width / 2;
+            const menuWidth = menuContent.offsetWidth;
+            
+            // Calculate right position to center the menu
+            const viewportWidth = window.innerWidth;
+            const rightPosition = Math.max(0, viewportWidth - (buttonCenter + menuWidth/2));
+            
+            menuContent.style.right = `${rightPosition}px`;
+          }
+        };
+        
+        // Get chevron element
+        const menuChevron = menuTrigger.querySelector('svg');
+        
+        menuTrigger.addEventListener('click', () => {
+          menuContent.classList.toggle('hidden');
+          parentGroup.classList.toggle('data-[state=open]');
+          
+          // Toggle chevron rotation on click
+          if (menuChevron) {
+            if (menuContent.classList.contains('hidden')) {
+              menuChevron.style.transform = '';
+            } else {
+              menuChevron.style.transform = 'rotate(180deg)';
+            }
+            menuChevron.style.transition = 'transform 0.3s ease';
+          }
+          
+          if (!menuContent.classList.contains('hidden')) {
+            adjustMenuPosition();
+            
+            // GSAP animation for the menu content
+            import('gsap').then(({ gsap }) => {
+              gsap.from('#menuContent', {
+                y: -10,
+                opacity: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+              });
+              
+              gsap.from('#menuContent li', {
+                opacity: 0,
+                y: 5,
+                stagger: 0.05,
+                duration: 0.3,
+                delay: 0.1
+              });
+            });
+          }
+        });
+        
+        // Adjust on resize
+        window.addEventListener('resize', () => {
+          if (!menuContent.classList.contains('hidden')) {
+            adjustMenuPosition();
+          }
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+          const target = event.target as Node;
+          if (target && !parentGroup.contains(target)) {
+            menuContent.classList.add('hidden');
+            parentGroup.classList.remove('data-[state=open]');
+          }
+        });
+      }
+    }
+    
+    // Animation for the header
+    import('gsap').then(async ({ gsap }) => {
+      // Import ScrollToPlugin
+      const { ScrollToPlugin } = await import('gsap/ScrollToPlugin');
+      gsap.registerPlugin(ScrollToPlugin);
+      gsap.from('header', {
+        y: -20,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.out'
+      });
+      
+      // Set up scroll-based animations
+      const navbar = document.getElementById('navbar');
+      let lastScrollTop = 0;
+      let isNavbarVisible = true;
+      
+      // Create dynamic island
+      const dynamicIsland = document.createElement('div');
+      dynamicIsland.id = 'dynamicIsland';
+      dynamicIsland.className = 'fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 bg-background/80 rounded-full px-2 py-2 border border-main/30 backdrop-blur-md backdrop-saturate-150 supports-[backdrop-filter]:bg-background/60 shadow-lg flex items-center opacity-0 pointer-events-none transition-all duration-300 hover:border-main/50';
+      
+      // Get logo URL from the page
+      const logoImg = document.querySelector('header img') as HTMLImageElement;
+      const logoSrc = logoImg ? logoImg.src : '/SWv2.png';
+      
+      dynamicIsland.innerHTML = `
+        <a href="#" id="backToTop" class="flex items-center justify-center px-2 text-white hover:text-main transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+            <path d="m18 15-6-6-6 6"/>
+          </svg>
+        </a>
+        <div class="h-6 w-px bg-main/30 mx-3"></div>
+        <div class="relative">
+          <button id="sectionSelector" class="inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-white hover:text-main focus:outline-none transition-colors">
+            <span id="currentSection" class="text-main">Seções</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 h-3 w-3 transition-transform chevron-icon">
+              <path d="m6 9 6 6 6-6"></path>
+            </svg>
+          </button>
+          <div id="sectionDropdown" class="hidden absolute bottom-full mb-2 left-0 w-52 bg-background/80 rounded-md border border-main/30 backdrop-blur-md backdrop-saturate-150 supports-[backdrop-filter]:bg-background/60 p-3 shadow-lg">
+            <ul class="space-y-2">
+              <li>
+                <div class="flex items-center mb-1">
+                  <div class="flex-grow h-px bg-main/20"></div>
+                  <span class="px-2 text-xs font-medium text-main/80">Seções da Página</span>
+                  <div class="flex-grow h-px bg-main/20"></div>
+                </div>
+              </li>
+              <li><a href="#hero" class="section-link block px-3 py-1.5 rounded text-sm font-medium text-white hover:bg-main/10 hover:text-main transition-colors flex items-center">
+                <span class="w-1.5 h-1.5 bg-main rounded-full mr-2"></span>Início
+              </a></li>
+              <li><div class="h-px bg-second/20 my-1"></div></li>
+              <li><a href="#tech-stack" class="section-link block px-3 py-1.5 rounded text-sm font-medium text-white hover:bg-main/10 hover:text-main transition-colors flex items-center">
+                <span class="w-1.5 h-1.5 bg-main rounded-full mr-2"></span>Tecnologias
+              </a></li>
+              <li><div class="h-px bg-second/20 my-1"></div></li>
+              <li><a href="#colors" class="section-link block px-3 py-1.5 rounded text-sm font-medium text-white hover:bg-main/10 hover:text-main transition-colors flex items-center">
+                <span class="w-1.5 h-1.5 bg-main rounded-full mr-2"></span>Cores
+              </a></li>
+            </ul>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(dynamicIsland);
+      
+      // Set up dynamic island functionality
+      const sectionSelector = document.getElementById('sectionSelector');
+      const sectionDropdown = document.getElementById('sectionDropdown');
+      const chevronIcon = sectionSelector?.querySelector('.chevron-icon') as HTMLElement;
+      
+      sectionSelector?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isDropdownHidden = sectionDropdown?.classList.contains('hidden');
+        
+        // Toggle dropdown visibility
+        sectionDropdown?.classList.toggle('hidden');
+        
+        if (chevronIcon) {
+          if (!isDropdownHidden) {
+            // Dropdown is now hidden
+            chevronIcon.style.transform = '';
+          } else {
+            // Dropdown is now visible
+            chevronIcon.style.transform = 'rotate(180deg)';
+            
+            // Highlight current section in dropdown
+            const currentSectionText = document.getElementById('currentSection')?.textContent;
+            document.querySelectorAll('.section-link').forEach(link => {
+              if (link.textContent?.includes(currentSectionText || '')) {
+                link.classList.add('text-main');
+                link.classList.add('bg-main/10');
+              } else {
+                link.classList.remove('text-main');
+                link.classList.remove('bg-main/10');
+              }
+            });
+            
+            // Animate dropdown items
+            import('gsap').then(({ gsap }) => {
+              // Animate the divider lines
+              gsap.from('#sectionDropdown .h-px', {
+                scaleX: 0,
+                duration: 0.4,
+                stagger: 0.1,
+                ease: 'power1.out'
+              });
+              
+              // Animate the menu items
+              gsap.from('#sectionDropdown li:not(:first-child)', {
+                opacity: 0,
+                y: 5,
+                stagger: 0.05,
+                duration: 0.3,
+                delay: 0.1
+              });
+            });
+          }
+          chevronIcon.style.transition = 'transform 0.3s ease';
+        }
+      });
+      
+      document.addEventListener('click', (e) => {
+        if (sectionDropdown && !sectionDropdown.classList.contains('hidden') && !sectionSelector?.contains(e.target as Node)) {
+          sectionDropdown.classList.add('hidden');
+          if (chevronIcon) {
+            chevronIcon.style.transform = '';
+          }
+        }
+      });
+      
+      // Add smooth scroll for back to top button
+      document.body.addEventListener('click', (e) => {
+        const target = e.target as Element;
+        const backToTopButton = target.closest('#backToTop');
+        
+        if (backToTopButton) {
+          e.preventDefault();
+          
+          // Add pulse animation to the button
+          import('gsap').then(({ gsap }) => {
+            // Animate button
+            gsap.to(backToTopButton, {
+              scale: 1.2,
+              duration: 0.2,
+              onComplete: () => {
+                gsap.to(backToTopButton, {
+                  scale: 1,
+                  duration: 0.2
+                });
+              }
+            });
+            
+            // Scroll to top
+            gsap.to(window, {
+              duration: 1,
+              scrollTo: { y: 0, autoKill: false },
+              ease: "power3.inOut"
+            });
+          });
+        }
+      });
+      
+      // Add smooth scrolling for section links
+      document.querySelectorAll('.section-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const href = (link as HTMLAnchorElement).getAttribute('href');
+          const linkText = link.textContent?.trim() || 'Seções';
+          
+          if (href) {
+            const targetElement = document.querySelector(href);
+            if (targetElement) {
+              // Close the dropdown
+              sectionDropdown?.classList.add('hidden');
+              if (chevronIcon) {
+                chevronIcon.style.transform = '';
+              }
+              
+              // Update current section text
+              const currentSectionElement = document.getElementById('currentSection');
+              if (currentSectionElement) {
+                currentSectionElement.textContent = linkText;
+              }
+              
+              // Smooth scroll to the target
+              import('gsap').then(({ gsap }) => {
+                gsap.to(window, {
+                  duration: 0.8,
+                  scrollTo: { y: targetElement, offsetY: 80 },
+                  ease: "power3.inOut"
+                });
+              });
+            }
+          }
+        });
+      });
+      
+      // Function to update current section based on scroll position
+      const updateCurrentSection = () => {
+        const sections = [
+          { id: 'hero', name: 'Início' },
+          { id: 'tech-stack', name: 'Tecnologias' },
+          { id: 'colors', name: 'Cores' }
+        ];
+        
+        const currentSectionElement = document.getElementById('currentSection');
+        if (!currentSectionElement) return;
+        
+        // Find the current visible section
+        for (const section of sections) {
+          const element = document.getElementById(section.id);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            // If the section is in the viewport
+            if (rect.top <= 100 && rect.bottom >= 100) {
+              if (currentSectionElement.textContent !== section.name) {
+                // Animate text change with GSAP (only affects the text element)
+                import('gsap').then(({ gsap }) => {
+                  // Create a timeline to ensure smooth transitions
+                  const tl = gsap.timeline();
+                  
+                  // Fade out the text
+                  tl.to(currentSectionElement, {
+                    opacity: 0,
+                    duration: 0.2,
+                    onComplete: () => {
+                      currentSectionElement.textContent = section.name;
+                    }
+                  });
+                  
+                  // Fade in the new text
+                  tl.to(currentSectionElement, {
+                    opacity: 1,
+                    duration: 0.2
+                  });
+                });
+                
+                // Also update the active state in the dropdown
+                document.querySelectorAll('.section-link').forEach(link => {
+                  const href = (link as HTMLAnchorElement).getAttribute('href');
+                  if (href === `#${section.id}`) {
+                    link.classList.add('text-main');
+                    link.classList.add('bg-main/10');
+                  } else {
+                    link.classList.remove('text-main');
+                    link.classList.remove('bg-main/10');
+                  }
+                });
+              }
+              break;
+            }
+          }
+        }
+      };
+      
+      // We already handle the chevron in the click event above
+      
+      // Handle scroll events
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 100;
+        
+        // Hide navbar when scrolling down, show when scrolling up
+        if (scrollTop > lastScrollTop && scrollTop > 100 && isNavbarVisible) {
+          // Scrolling down
+          gsap.to(navbar, { y: '-100%', duration: 0.3, ease: 'power2.out' });
+          isNavbarVisible = false;
+        } else if ((scrollTop < lastScrollTop || scrollTop <= 100) && !isNavbarVisible) {
+          // Scrolling up or at top
+          gsap.to(navbar, { y: '0%', duration: 0.3, ease: 'power2.out' });
+          isNavbarVisible = true;
+        }
+        
+        // Show dynamic island when not at top and not at bottom
+        const isAtTop = scrollTop <= 50;
+        const isNearBottom = scrollTop + clientHeight >= scrollHeight - 150;
+        
+        if (scrollTop > 150 && !isAtTop && !isNearBottom) {
+          gsap.to(dynamicIsland, { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.4, 
+            ease: 'power2.out',
+            onStart: () => {
+              dynamicIsland.style.pointerEvents = 'auto';
+            }
+          });
+          
+          // Update current section based on scroll position
+          updateCurrentSection();
+        } else {
+          gsap.to(dynamicIsland, { 
+            opacity: 0, 
+            y: 20, 
+            duration: 0.3, 
+            ease: 'power3.in',
+            onComplete: () => {
+              dynamicIsland.style.pointerEvents = 'none';
+            }
+          });
+        }
+        
+        lastScrollTop = scrollTop;
+      });
+    });
+  });
+</script>

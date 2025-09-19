@@ -1,22 +1,58 @@
+---
+import '../styles/global.css';
+import sheltonLogo from '../assets/SWv2.png';
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="pt">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/logo.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="icon" type="image/svg+xml" href={sheltonLogo.src} />
 		<meta name="generator" content={Astro.generator} />
-		<title>Shelton Macave</title>
+		<title>{Astro.props.title || "Shelton Macave"}</title>
+		
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+		
+		<!-- Local font (Space Grotesk) -->
+		<link rel="preload" href="/fonts/SpaceGrotesk-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
+		
+		<!-- Additional head content -->
+		<slot name="head" />
 	</head>
-	<body>
+	<body style="font-family: 'Work Sans', system-ui, sans-serif;">
 		<slot />
 	</body>
 </html>
 
-<style>
+<style is:global>
+	/* Reset and base styles */
 	html,
 	body {
 		margin: 0;
+		padding: 0;
 		width: 100%;
 		height: 100%;
+	}
+	
+	/* Mobile-optimized font declarations */
+	@supports (font-variation-settings: normal) {
+		body { font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+		.font-grotesk { font-family: 'Space Grotesk', monospace; }
+	}
+	
+	/* Fallback for browsers that don't support @supports */
+	body {
+		font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	
+	.font-grotesk {
+		font-family: 'Space Grotesk', monospace;
 	}
 </style>

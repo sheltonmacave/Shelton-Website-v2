@@ -1,0 +1,42 @@
+/* Tailwind directives removed for standard CSS compatibility */
+
+/* Space Grotesk local font */
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk-VariableFont_wght.ttf') format('truetype');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-main: 255, 79, 0;
+  --color-second: 207, 207, 207;
+  --color-background: 42, 26, 18;
+}
+
+/* Basic typography and color setup */
+html {
+  background-color: #2A1A12;
+  color: #CFCFCF;
+}
+
+body {
+  font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', monospace;
+  color: #FF4F00;
+}
+
+/* Utility classes for fonts */
+.font-sans {
+  font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif !important;
+}
+
+.font-grotesk {
+  font-family: 'Space Grotesk', monospace !important;
+}

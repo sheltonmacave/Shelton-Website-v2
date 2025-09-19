@@ -1,0 +1,154 @@
+---
+import { Image } from 'astro:assets';
+import sheltonLogo from '../assets/SWv2.png';
+---
+
+<footer class="footer-gradient text-white py-12 mt-16">
+  <div class="container mx-auto px-6 md:px-16">
+    <!-- Quote -->
+    <div class="flex flex-col items-center justify-center mb-10 text-center">
+      <blockquote class="text-xl md:text-3xl lg:text-4xl font-grotesk mb-8 leading-relaxed text-main">
+         Arquitectado e Desenvolvido pelo Maior IT de África
+      </blockquote>
+      
+        <Image src={sheltonLogo} alt="Shelton Macave" width={60} height={60} />
+    </div>
+    
+    <!-- Divider -->
+    <div class="divider w-3/4 mx-auto h-px bg-main/30 my-8"></div>
+    
+    <!-- Navigation Links -->
+    <nav class="mb-8">
+      <ul class="flex flex-wrap justify-center gap-4 md:gap-8">
+        <li>
+          <a href="/" class="footer-link text-white hover:text-main transition-colors px-3 py-1.5 rounded-md hover:bg-main/10">
+            Página Inicial
+          </a>
+        </li>
+        <li>
+          <a href="/sobre" class="footer-link text-white hover:text-main transition-colors px-3 py-1.5 rounded-md hover:bg-main/10">
+            Sobre Mim
+          </a>
+        </li>
+        <li>
+          <a href="/carreiras" class="footer-link text-white hover:text-main transition-colors px-3 py-1.5 rounded-md hover:bg-main/10">
+            Carreiras
+          </a>
+        </li>
+        <li>
+          <a href="/galeria" class="footer-link text-white hover:text-main transition-colors px-3 py-1.5 rounded-md hover:bg-main/10">
+            Galeria
+          </a>
+        </li>
+        <li>
+          <a href="/contactos" class="footer-link text-white hover:text-main transition-colors px-3 py-1.5 rounded-md hover:bg-main/10">
+            Contactos
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <!-- Divider -->
+    <div class="divider w-3/4 mx-auto h-px bg-main/30 my-8"></div>
+    
+    <!-- Copyright -->
+    <div class="copyright text-center text-white/70 text-sm">
+      © 2025 Shelton Macave. Todos os direitos reservados.
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Gradient para o footer - transição de 20% do background para preto */
+  .footer-gradient {
+    background-image: linear-gradient(to bottom, #2A1A12 0%, black 40%);
+  }
+  
+  /* Animações do footer quando ele entra na viewport */
+  @media (prefers-reduced-motion: no-preference) {
+    footer {
+      view-timeline-name: --footer-timeline;
+      animation-timeline: --footer-timeline;
+      animation-name: footer-reveal;
+      animation-range: entry 10% cover 30%;
+      animation-fill-mode: both;
+    }
+    
+    footer blockquote {
+      view-timeline-name: --footer-quote;
+      animation-timeline: --footer-quote;
+      animation-name: quote-reveal;
+      animation-range: entry 5% cover 25%;
+      animation-fill-mode: both;
+    }
+    
+    footer .divider {
+      view-timeline-name: --footer-divider;
+      animation-timeline: --footer-divider;
+      animation-name: divider-reveal;
+      animation-range: entry 10% cover 30%;
+      animation-fill-mode: both;
+    }
+    
+    footer nav, footer .copyright {
+      view-timeline-name: --footer-content;
+      animation-timeline: --footer-content;
+      animation-name: content-reveal;
+      animation-range: entry 15% cover 35%;
+      animation-fill-mode: both;
+    }
+  
+    @keyframes footer-reveal {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes quote-reveal {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes divider-reveal {
+      from {
+        width: 0;
+        opacity: 0;
+      }
+      to {
+        width: 75%;
+        opacity: 1;
+      }
+    }
+    
+    @keyframes content-reveal {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+  
+  .footer-link {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .footer-link:hover {
+    transform: translateY(-2px);
+  }
+</style>

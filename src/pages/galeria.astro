@@ -1,0 +1,316 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Galeria - Shelton Macave" description="Conheça os projetos, designs e ilustrações desenvolvidos por Shelton Macave.">
+  <div class="container mx-auto px-6 md:px-16 py-12">
+    <h1 class="text-4xl md:text-5xl font-grotesk text-main text-center mb-12">Galeria de Projetos</h1>
+    
+    <div class="mb-12">
+      <div class="flex flex-wrap gap-4 justify-center mb-8">
+        <button class="filter-btn active px-4 py-2 rounded-lg bg-main text-white" data-filter="all">Todos</button>
+        <button class="filter-btn px-4 py-2 rounded-lg bg-black/30 text-second hover:bg-main/10 hover:text-main transition-all" data-filter="web">Web</button>
+        <button class="filter-btn px-4 py-2 rounded-lg bg-black/30 text-second hover:bg-main/10 hover:text-main transition-all" data-filter="mobile">Mobile</button>
+        <button class="filter-btn px-4 py-2 rounded-lg bg-black/30 text-second hover:bg-main/10 hover:text-main transition-all" data-filter="design">UI/UX</button>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Projeto 1 -->
+        <div class="gallery-item web bg-black/20 overflow-hidden rounded-lg transition-all">
+          <div class="relative h-64 overflow-hidden group">
+            <div class="bg-main/10 w-full h-full flex items-center justify-center">
+              <span class="text-main font-grotesk">Imagem do Projeto</span>
+            </div>
+            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                <h3 class="text-xl font-grotesk text-main mb-2">Website Corporativo</h3>
+                <p class="text-second/90 mb-4">Redesenho completo do site institucional para melhorar conversões.</p>
+                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-grotesk text-main">Website Corporativo</h3>
+            <p class="text-sm text-second/70">Desenvolvimento Web</p>
+          </div>
+        </div>
+        
+        <!-- Projeto 2 -->
+        <div class="gallery-item mobile bg-black/20 overflow-hidden rounded-lg transition-all">
+          <div class="relative h-64 overflow-hidden group">
+            <div class="bg-main/10 w-full h-full flex items-center justify-center">
+              <span class="text-main font-grotesk">Imagem do Projeto</span>
+            </div>
+            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                <h3 class="text-xl font-grotesk text-main mb-2">App de Finanças</h3>
+                <p class="text-second/90 mb-4">Aplicativo para controle financeiro pessoal com sincronização na nuvem.</p>
+                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-grotesk text-main">App de Finanças</h3>
+            <p class="text-sm text-second/70">Desenvolvimento Mobile</p>
+          </div>
+        </div>
+        
+        <!-- Projeto 3 -->
+        <div class="gallery-item design bg-black/20 overflow-hidden rounded-lg transition-all">
+          <div class="relative h-64 overflow-hidden group">
+            <div class="bg-main/10 w-full h-full flex items-center justify-center">
+              <span class="text-main font-grotesk">Imagem do Projeto</span>
+            </div>
+            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                <h3 class="text-xl font-grotesk text-main mb-2">Redesign de E-commerce</h3>
+                <p class="text-second/90 mb-4">Novo design para plataforma de e-commerce com foco em UX.</p>
+                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-grotesk text-main">Redesign de E-commerce</h3>
+            <p class="text-sm text-second/70">UI/UX Design</p>
+          </div>
+        </div>
+        
+        <!-- Projeto 4 -->
+        <div class="gallery-item web bg-black/20 overflow-hidden rounded-lg transition-all">
+          <div class="relative h-64 overflow-hidden group">
+            <div class="bg-main/10 w-full h-full flex items-center justify-center">
+              <span class="text-main font-grotesk">Imagem do Projeto</span>
+            </div>
+            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                <h3 class="text-xl font-grotesk text-main mb-2">Painel Administrativo</h3>
+                <p class="text-second/90 mb-4">Dashboard para gestão interna com visualização de dados em tempo real.</p>
+                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-grotesk text-main">Painel Administrativo</h3>
+            <p class="text-sm text-second/70">Desenvolvimento Web</p>
+          </div>
+        </div>
+        
+        <!-- Projeto 5 -->
+        <div class="gallery-item mobile bg-black/20 overflow-hidden rounded-lg transition-all">
+          <div class="relative h-64 overflow-hidden group">
+            <div class="bg-main/10 w-full h-full flex items-center justify-center">
+              <span class="text-main font-grotesk">Imagem do Projeto</span>
+            </div>
+            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                <h3 class="text-xl font-grotesk text-main mb-2">App de Delivery</h3>
+                <p class="text-second/90 mb-4">Aplicativo para entrega de refeições com tracking em tempo real.</p>
+                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-grotesk text-main">App de Delivery</h3>
+            <p class="text-sm text-second/70">Desenvolvimento Mobile</p>
+          </div>
+        </div>
+        
+        <!-- Projeto 6 -->
+        <div class="gallery-item design bg-black/20 overflow-hidden rounded-lg transition-all">
+          <div class="relative h-64 overflow-hidden group">
+            <div class="bg-main/10 w-full h-full flex items-center justify-center">
+              <span class="text-main font-grotesk">Imagem do Projeto</span>
+            </div>
+            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
+              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                <h3 class="text-xl font-grotesk text-main mb-2">Design System</h3>
+                <p class="text-second/90 mb-4">Sistema de design unificado para produtos digitais da empresa.</p>
+                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-lg font-grotesk text-main">Design System</h3>
+            <p class="text-sm text-second/70">UI/UX Design</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal para visualização detalhada dos projetos -->
+    <div id="projectModal" class="fixed inset-0 bg-black/90 z-50 items-center justify-center hidden">
+      <div class="bg-background w-11/12 max-w-4xl rounded-lg overflow-hidden relative">
+        <button id="closeModal" class="absolute top-4 right-4 text-white hover:text-main">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        
+        <div class="p-6">
+          <h2 id="modalTitle" class="text-2xl font-grotesk text-main mb-4"></h2>
+          <div id="modalContent" class="text-second"></div>
+          
+          <div class="mt-6 bg-main/5 p-4 rounded-lg">
+            <h3 class="text-lg font-grotesk text-main mb-2">Tecnologias utilizadas</h3>
+            <div id="modalTags" class="flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<script>
+  import { gsap } from 'gsap';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    // Filtro para a galeria
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Atualizar botões de filtro
+        filterButtons.forEach(btn => btn.classList.remove('active', 'bg-main', 'text-white'));
+        filterButtons.forEach(btn => btn.classList.add('bg-black/30', 'text-second'));
+        button.classList.remove('bg-black/30', 'text-second');
+        button.classList.add('active', 'bg-main', 'text-white');
+        
+        const filterValue = button.getAttribute('data-filter');
+        
+        // Filtrar itens
+        galleryItems.forEach(item => {
+          if (filterValue === 'all' || item.classList.contains(filterValue)) {
+            gsap.to(item, { 
+              opacity: 1, 
+              scale: 1, 
+              duration: 0.3,
+              ease: 'power1.out',
+              display: 'block' 
+            });
+          } else {
+            gsap.to(item, { 
+              opacity: 0, 
+              scale: 0.95, 
+              duration: 0.3,
+              ease: 'power1.out',
+              onComplete: () => {
+                item.style.display = 'none';
+              }
+            });
+          }
+        });
+      });
+    });
+    
+    // Configuração do modal
+    const projectModal = document.getElementById('projectModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+    const modalTags = document.getElementById('modalTags');
+    const closeModalButton = document.getElementById('closeModal');
+    const viewProjectButtons = document.querySelectorAll('.view-project');
+    
+    // Conteúdo do projeto para o modal
+    const projectDetails = {
+      'Website Corporativo': {
+        description: 'Redesenho completo do site institucional para uma empresa de tecnologia. O projeto incluiu uma nova arquitetura de informação, design responsivo e otimização para SEO. O resultado foi um aumento de 40% nas conversões e 30% na taxa de permanência na página.',
+        tags: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Node.js']
+      },
+      'App de Finanças': {
+        description: 'Aplicativo móvel para controle financeiro pessoal com recursos de categorização de despesas, relatórios detalhados, metas financeiras e sincronização na nuvem. Disponível para iOS e Android, com mais de 50 mil downloads.',
+        tags: ['React Native', 'Firebase', 'Redux', 'GraphQL']
+      },
+      'Redesign de E-commerce': {
+        description: 'Projeto de redesign completo da experiência de compra para uma plataforma de e-commerce. O processo incluiu pesquisa com usuários, wireframes, protótipos interativos e testes de usabilidade. A implementação resultou em um aumento de 25% na taxa de conversão.',
+        tags: ['Figma', 'Adobe XD', 'Prototyping', 'User Research']
+      },
+      'Painel Administrativo': {
+        description: 'Dashboard administrativo com visualização de dados em tempo real para uma empresa de logística. O sistema inclui gráficos interativos, filtros avançados e relatórios customizáveis para tomada de decisão.',
+        tags: ['Vue.js', 'D3.js', 'Tailwind CSS', 'Express']
+      },
+      'App de Delivery': {
+        description: 'Aplicativo de entrega de refeições com funcionalidades de geolocalização, tracking em tempo real e sistema de pagamentos integrado. Desenvolvido para uma rede de restaurantes com mais de 30 estabelecimentos.',
+        tags: ['Flutter', 'Dart', 'Google Maps API', 'Stripe']
+      },
+      'Design System': {
+        description: 'Sistema de design unificado para uma empresa de telecomunicações, incluindo biblioteca de componentes, guia de estilo, documentação e exemplos de implementação. O sistema é utilizado em mais de 10 produtos digitais da empresa.',
+        tags: ['Storybook', 'Sketch', 'Zeplin', 'Style Dictionary']
+      }
+    };
+    
+    // Abrir modal
+    viewProjectButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const projectName = e.target.closest('.gallery-item').querySelector('h3').textContent;
+        const project = projectDetails[projectName];
+        
+        modalTitle.textContent = projectName;
+        modalContent.innerHTML = `<p>${project.description}</p>`;
+        
+        modalTags.innerHTML = '';
+        project.tags.forEach(tag => {
+          const tagElement = document.createElement('span');
+          tagElement.className = 'bg-main/20 text-main px-3 py-1 rounded-full text-sm';
+          tagElement.textContent = tag;
+          modalTags.appendChild(tagElement);
+        });
+        
+        projectModal.classList.remove('hidden');
+        projectModal.classList.add('flex');
+        gsap.from(projectModal.querySelector('.bg-background'), { 
+          opacity: 0, 
+          y: 20, 
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      });
+    });
+    
+    // Fechar modal
+    closeModalButton.addEventListener('click', () => {
+      gsap.to(projectModal.querySelector('.bg-background'), { 
+        opacity: 0, 
+        y: 20, 
+        duration: 0.2,
+        ease: 'power2.in',
+        onComplete: () => {
+          projectModal.classList.add('hidden');
+        }
+      });
+    });
+    
+    // Fechar modal ao clicar fora
+    projectModal.addEventListener('click', (e) => {
+      if (e.target === projectModal) {
+        closeModalButton.click();
+      }
+    });
+    
+    // Animações iniciais
+    gsap.from('h1', { 
+      opacity: 0, 
+      y: -30,
+      duration: 0.8,
+      ease: 'power2.out'
+    });
+    
+    gsap.from('.filter-btn', { 
+      opacity: 0, 
+      y: 20,
+      stagger: 0.1,
+      duration: 0.5,
+      delay: 0.3,
+      ease: 'power2.out'
+    });
+    
+    gsap.from('.gallery-item', { 
+      opacity: 0, 
+      y: 30,
+      stagger: 0.1,
+      duration: 0.6,
+      delay: 0.5,
+      ease: 'power2.out'
+    });
+  });
+</script>
