@@ -1,114 +1,407 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { Image } from 'astro:assets';
-import sheltonLogo from '../assets/SWv2.png';
+import PageExplore from '../components/PageExplore.astro';
+import Navbar from '../components/Navbar.astro';
+import React, { useEffect, useState } from 'react';
+import { Badge } from '../components/ui/badge.jsx';
+import { Trophy } from 'lucide-react';
 ---
 
+<style>
+  /* Styling for the hero section */
+  #hero {
+    position: relative;
+  }
+  
+  .moon {
+    transform-origin: center;
+  }
+  
+  /* Name Text Styling */
+  .name-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem; /* reduzido */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    pointer-events: none;
+    color: #fff;
+  }
+  
+  .svg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+  
+  .name-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  .name-outline {
+    fill: none;
+    stroke: var(--color-main);
+    stroke-width: 2px;
+    dominant-baseline: middle;
+    text-anchor: middle;
+    /* box-shadow removido */
+  }
+
+  .name-fill {
+    fill: #fff; /* texto branco */
+    dominant-baseline: middle;
+    text-anchor: middle;
+    /* box-shadow removido */
+  }
+  
+  #name-shelton {
+    position: absolute;
+    top: -25%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  
+  #name-elias {
+    position: absolute;
+    bottom: 0;
+    right: -15%;
+    text-align: right;
+  }
+  
+  #name-macave {
+    position: absolute;
+    bottom: 0;
+    left: -15%;
+    text-align: left;
+  }
+  
+  .dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-main);
+    border-radius: 50%;
+    position: absolute;
+  }
+  
+  #dot-1 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  #dot-2 {
+    bottom: 0;
+    right: 0;
+  }
+  
+  #dot-3 {
+    bottom: 0;
+    left: 0;
+  }
+  
+  /* Provide smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
+
+
+
+</PageLayout>
+
+<!-- Move circular text animation CSS to the very end so Astro never parses it as TypeScript/JSX -->
+<style>
+  .circle-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 38vw;
+    height: 38vw;
+    max-width: 600px;
+    max-height: 600px;
+    min-width: 250px;
+    min-height: 250px;
+    pointer-events: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    z-index: 2;
+    animation: circle-rotate 32s linear infinite;
+  }
+  .circle-text li {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: left center;
+    white-space: nowrap;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    opacity: 0.85;
+    letter-spacing: 0.04em;
+  }
+  .circle-text li span {
+    display: inline-block;
+    color: #fff;
+    transition: transform 0.2s;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+  }
+  /* Position each li around the circle */
+  .circle-text li { --total: 20; }
+  .circle-text li:nth-child(1)  { transform: rotate(0deg)    translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(2)  { transform: rotate(18deg)   translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(3)  { transform: rotate(36deg)   translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(4)  { transform: rotate(54deg)   translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(5)  { transform: rotate(72deg)   translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(6)  { transform: rotate(90deg)   translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(7)  { transform: rotate(108deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(8)  { transform: rotate(126deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(9)  { transform: rotate(144deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(10) { transform: rotate(162deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(11) { transform: rotate(180deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(12) { transform: rotate(198deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(13) { transform: rotate(216deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(14) { transform: rotate(234deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(15) { transform: rotate(252deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(16) { transform: rotate(270deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(17) { transform: rotate(288deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(18) { transform: rotate(306deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(19) { transform: rotate(324deg)  translateY(-65vw) rotate(-90deg); }
+  .circle-text li:nth-child(20) { transform: rotate(342deg)  translateY(-65vw) rotate(-90deg); }
+  @keyframes circle-rotate {
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+</style>
+
 <PageLayout title="Página Inicial - Shelton Macave">
-  <div class="container mx-auto px-4 py-12">
-    <section id="hero" class="flex flex-col items-center text-center mb-20">
-      <div class="flex justify-center w-full">
-        <Image src={sheltonLogo} width={200} height={200} alt="Shelton Macave" class="mb-8" />
+  <!-- Hero Section with space background and moon -->
+  <section id="hero" class="relative h-[100vh] w-full">
+  <!-- Badge Outlined no topo -->
+  <div class="absolute top-[7rem] left-1/2 z-40 -translate-x-1/2 flex justify-center w-full pointer-events-none select-none">
+      <div style="pointer-events:auto">
+        <Badge
+          variant="outline"
+          className="border-main text-main bg-transparent opacity-80 transition-all duration-700 text-sm md:text-lg px-4 py-2 shadow-2xl"
+          id="badge-7000dias"
+          style={{
+            display: 'inline-block',
+            transition: 'width 0.5s cubic-bezier(0.4,0,0.2,1)',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <span class="flex items-center gap-2">
+            <Trophy className="w-5 h-5 text-main" />
+            <span id="badge-text" style="transition: opacity 0.4s; opacity: 1; display: inline-block; white-space: nowrap;">Alusivo aos 7000 Dias de Vida</span>
+          </span>
+        </Badge>
       </div>
-      
-      <h1 class="text-4xl md:text-5xl font-bold mb-8 text-main">
-        Shelton Macave
-      </h1>
-      
-      <p class="text-lg md:text-xl text-second/90 max-w-2xl mb-8">
-        Desenvolvedor, Designer e IT Profissional especializado em criar experiências digitais inovadoras e de alto impacto.
-      </p>
-      
-      <div class="flex flex-wrap gap-4 justify-center">
-        <a href="/sobre" class="bg-main hover:bg-main/90 text-white px-6 py-3 rounded-md transition-all transform hover:scale-105">
-          Conheça meu trabalho
-        </a>
-        <a href="/contactos" class="border border-main/30 hover:border-main text-main hover:bg-main/10 px-6 py-3 rounded-md transition-all transform hover:scale-105">
-          Entre em contacto
-        </a>
-      </div>
-    </section>
+    </div>
+    <!-- Floating badges for Steve Jobs and Kanye West, now inside the name container -->
+    <!-- Space background image -->
+    <div class="absolute inset-0 z-0">
+      <img 
+        src="/images/pages/space.jpg" 
+        alt="Espaço" 
+        class="w-full h-full object-cover"
+      />
+    </div>
     
-    <section id="destaque" class="my-16">
-      <h2 class="text-3xl font-grotesk text-main text-center mb-10">Projetos em Destaque</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Cards de projeto aqui -->
-        <div class="bg-black/20 rounded-lg overflow-hidden border border-main/10 hover:border-main/30 transition-all">
-          <div class="h-48 bg-main/10 flex items-center justify-center">
-            <span class="text-main font-grotesk">Imagem do Projeto</span>
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-grotesk text-main mb-2">Website Corporativo</h3>
-            <p class="text-second/90 mb-4">Redesign completo de um site institucional com foco em experiência do usuário.</p>
-            <a href="/galeria" class="text-main hover:underline inline-flex items-center">
-              Ver detalhes
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
-        </div>
-        
-        <div class="bg-black/20 rounded-lg overflow-hidden border border-main/10 hover:border-main/30 transition-all">
-          <div class="h-48 bg-main/10 flex items-center justify-center">
-            <span class="text-main font-grotesk">Imagem do Projeto</span>
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-grotesk text-main mb-2">Aplicativo Mobile</h3>
-            <p class="text-second/90 mb-4">Desenvolvimento de app para gestão de tarefas com sincronização em nuvem.</p>
-            <a href="/galeria" class="text-main hover:underline inline-flex items-center">
-              Ver detalhes
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
-        </div>
-        
-        <div class="bg-black/20 rounded-lg overflow-hidden border border-main/10 hover:border-main/30 transition-all">
-          <div class="h-48 bg-main/10 flex items-center justify-center">
-            <span class="text-main font-grotesk">Imagem do Projeto</span>
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-grotesk text-main mb-2">Sistema ERP</h3>
-            <p class="text-second/90 mb-4">Implementação de sistema de gestão empresarial para pequenas empresas.</p>
-            <a href="/galeria" class="text-main hover:underline inline-flex items-center">
-              Ver detalhes
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
-        </div>
+    <!-- Giant Moon and circular text at the bottom, 50% visible -->
+    <div class="absolute bottom-0 left-1/2 z-30 -translate-x-1/2 translate-y-1/2 w-[130vw] h-auto flex items-end justify-center">
+      <div class="relative w-full aspect-square">
+        <img 
+          src="/images/pages/moon.png" 
+          alt="Lua" 
+          class="w-full h-full object-contain moon drop-shadow-2xl"
+          style="object-position: bottom;"
+        />
+        <!-- CSS-only circular text animation -->
+        <ul class="circle-text">
+          <li><span>C</span><span>r</span><span>i</span><span>a</span><span>t</span><span>i</span><span>v</span><span>i</span><span>d</span><span>a</span><span>d</span><span>e</span></li>
+          <li><span>I</span><span>n</span><span>o</span><span>v</span><span>a</span><span>ç</span><span>ã</span><span>o</span></li>
+          <li><span>V</span><span>i</span><span>s</span><span>ã</span><span>o</span></li>
+          <li><span>P</span><span>a</span><span>i</span><span>x</span><span>ã</span><span>o</span></li>
+          <li><span>C</span><span>o</span><span>r</span><span>a</span><span>g</span><span>e</span><span>m</span></li>
+          <li><span>D</span><span>e</span><span>t</span><span>e</span><span>r</span><span>m</span><span>i</span><span>n</span><span>a</span><span>ç</span><span>ã</span><span>o</span></li>
+          <li><span>L</span><span>i</span><span>d</span><span>e</span><span>r</span><span>a</span><span>n</span><span>ç</span><span>a</span></li>
+          <li><span>R</span><span>e</span><span>b</span><span>e</span><span>l</span><span>d</span><span>i</span><span>a</span></li>
+          <li><span>G</span><span>ê</span><span>n</span><span>i</span><span>o</span></li>
+          <li><span>M</span><span>i</span><span>n</span><span>i</span><span>m</span><span>a</span><span>l</span><span>i</span><span>s</span><span>m</span><span>o</span></li>
+          <li><span>A</span><span>m</span><span>b</span><span>i</span><span>ç</span><span>ã</span><span>o</span></li>
+          <li><span>C</span><span>u</span><span>r</span><span>i</span><span>o</span><span>s</span><span>i</span><span>d</span><span>a</span><span>d</span><span>e</span></li>
+          <li><span>A</span><span>r</span><span>t</span><span>e</span></li>
+          <li><span>Í</span><span>c</span><span>o</span><span>n</span><span>e</span></li>
+          <li><span>P</span><span>r</span><span>o</span><span>d</span><span>u</span><span>t</span><span>o</span><span>r</span></li>
+          <li><span>D</span><span>e</span><span>s</span><span>i</span><span>g</span><span>n</span><span>e</span><span>r</span></li>
+          <li><span>S</span><span>o</span><span>n</span><span>h</span><span>a</span><span>d</span><span>o</span><span>r</span></li>
+          <li><span>P</span><span>e</span><span>n</span><span>s</span><span>a</span><span>d</span><span>o</span><span>r</span></li>
+          <li><span>D</span><span>i</span><span>s</span><span>r</span><span>u</span><span>p</span><span>t</span><span>i</span><span>v</span><span>o</span></li>
+          <li><span>A</span><span>u</span><span>t</span><span>e</span><span>n</span><span>t</span><span>i</span><span>c</span><span>i</span><span>d</span><span>a</span><span>d</span><span>e</span></li>
+        </ul>
       </div>
-    </section>
+    </div>
+    
+    <!-- Nome com animação "breathe" usando fonte variável -->
+  <div class="absolute top-[40vh] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center" style="pointer-events: none;">
+      <style>
+        @font-face {
+          font-family: 'TheFont';
+          src: url("https://garet.typeforward.com/assets/fonts/shared/TFMixVF.woff2") format('woff2');
+        }
+        .breathe-animation {
+          font-family: 'TheFont';
+          font-size: clamp(6vw, 12vw, 26vh);
+          color: white;
+          text-align: center;
+          animation: letter-breathe 3s ease-in-out infinite;
+        }
+        @keyframes letter-breathe {
+          from, to {
+            font-variation-settings: 'wght' 100;
+          }
+          50% {
+            font-variation-settings: 'wght' 900;
+          }
+        }
+      </style>
+      <span class="breathe-animation">SHELTON<br>ELIAS<br>MACAVE</span>
+    </div>
+    
+    <!-- Overlay with slight gradient -->
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-5"></div>
+    
+    <!-- Scroll indicator moved further down -->
+    <div class="absolute top-[90vh] left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-main w-8 h-8">
+        <path d="m6 9 6 6 6-6"/>
+      </svg>
+    </div>
+  </section>
+  
+  <!-- Explore Mais section with the page carousel -->
+  <div id="explore" class="relative z-20 bg-gradient-to-b from-black via-gray-900 to-background pt-20">
+    <PageExplore />
   </div>
 </PageLayout>
 
 <script>
   import { gsap } from 'gsap';
-  
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
   document.addEventListener('DOMContentLoaded', () => {
-    // Animações para a seção hero
-    gsap.from('#hero > *', { 
-      opacity: 0, 
-      y: 20,
-      stagger: 0.2,
-      duration: 0.8,
-      ease: 'power2.out'
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Badge text alternância suave com transição de largura
+    const badge = document.getElementById('badge-7000dias');
+    const badgeText = document.getElementById('badge-text');
+    let showingFirst = true;
+    function updateBadgeText(newText: string) {
+      if (!badge || !badgeText) return;
+      // Medir largura atual
+      const badgeEl = badge as HTMLElement;
+      const badgeTextEl = badgeText as HTMLElement;
+      const currentWidth = badgeEl.offsetWidth;
+      // Trocar texto para medir nova largura
+      badgeTextEl.textContent = newText;
+      badgeEl.style.width = 'auto';
+      badgeTextEl.style.opacity = '0';
+      // Forçar reflow para garantir transição
+      void badgeEl.offsetWidth;
+      // Medir nova largura
+      const temp = badgeEl.cloneNode(true) as HTMLElement;
+      temp.style.visibility = 'hidden';
+      temp.style.position = 'absolute';
+      temp.style.width = 'auto';
+      document.body.appendChild(temp);
+      const newWidth = temp.offsetWidth;
+      document.body.removeChild(temp);
+      // Aplicar largura inicial
+      badgeEl.style.width = currentWidth + 'px';
+      // Forçar reflow
+      void badgeEl.offsetWidth;
+      // Aplicar largura final
+      badgeEl.style.width = newWidth + 'px';
+      // Após transição, remover largura fixa
+      setTimeout(() => {
+        badgeEl.style.width = 'auto';
+        badgeTextEl.style.opacity = '1';
+      }, 500);
+    }
+    setInterval(() => {
+      if (!badgeText) return;
+      const newText = showingFirst ? '19/06/2006 - 18/08/2025' : 'Alusivo aos 7000 Dias de Vida';
+      updateBadgeText(newText);
+      showingFirst = !showingFirst;
+    }, 3500);
+
+    // Animação para a lua - rotação lenta
+    gsap.to('.moon', {
+      rotation: 360,
+      duration: 180, // 3 minutos para uma rotação completa (mais lento)
+      repeat: -1,
+      ease: 'linear'
     });
-    
-    // Animações para os cards de projeto
-    gsap.from('#destaque .bg-black/20', { 
-      opacity: 0, 
-      y: 30,
+
+    // Configurar efeito de preenchimento dos nomes
+    function setupNameFillAnimation() {
+      const sheltonClip = document.getElementById('shelton-clipRect');
+      const eliasClip = document.getElementById('elias-clipRect');
+      const macaveClip = document.getElementById('macave-clipRect');
+      if (!sheltonClip || !eliasClip || !macaveClip) {
+        console.error("Clipping rectangles not found");
+        return;
+      }
+      const nameTl = gsap.timeline({
+        repeat: -1,
+        repeatDelay: 1,
+        defaults: { ease: "power2.inOut" }
+      });
+      nameTl
+        .to(sheltonClip, { width: 600, duration: 3 })
+        .to(eliasClip, { width: 450, duration: 2 }, "+=0.3")
+        .to(macaveClip, { width: 550, duration: 2.5 }, "+=0.3")
+        .to([sheltonClip, eliasClip, macaveClip], { width: 0, duration: 0.1 }, "+=2");
+    }
+    setupNameFillAnimation();
+
+    // Animação para o nome se mover para cima com parallax quando o usuário rolar
+    gsap.to('.name-text', {
+      y: -200,
+      opacity: 0,
       stagger: 0.15,
-      duration: 0.6,
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: '25% top',
+        scrub: true
+      }
+    });
+
+    // Animação para a seção Explore
+    gsap.from('#explore', {
+      opacity: 0,
+      duration: 0.8,
       ease: 'power2.out',
       scrollTrigger: {
-        trigger: '#destaque',
-        start: 'top 80%'
+        trigger: '#explore',
+        start: 'top bottom',
+        end: 'top 70%',
+        scrub: true
       }
     });
   });

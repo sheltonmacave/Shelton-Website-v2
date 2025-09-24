@@ -1,158 +1,645 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+// Import shadcn UI components
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from '../components/ui/navigation-menu/index.jsx';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '../components/ui/dropdown-menu.jsx';
+import { Drawer } from '../components/ui/drawer.jsx';
+import { Slider, RangeSlider } from '../components/ui/slider.jsx';
+import { Grid, GridItem } from '../components/ui/grid.jsx';
 ---
 
-<PageLayout title="Galeria - Shelton Macave" description="Conheça os projetos, designs e ilustrações desenvolvidos por Shelton Macave.">
-  <div class="container mx-auto px-6 md:px-16 py-12">
-    <h1 class="text-4xl md:text-5xl font-grotesk text-main text-center mb-12">Galeria de Projetos</h1>
-    
-    <div class="mb-12">
-      <div class="flex flex-wrap gap-4 justify-center mb-8">
-        <button class="filter-btn active px-4 py-2 rounded-lg bg-main text-white" data-filter="all">Todos</button>
-        <button class="filter-btn px-4 py-2 rounded-lg bg-black/30 text-second hover:bg-main/10 hover:text-main transition-all" data-filter="web">Web</button>
-        <button class="filter-btn px-4 py-2 rounded-lg bg-black/30 text-second hover:bg-main/10 hover:text-main transition-all" data-filter="mobile">Mobile</button>
-        <button class="filter-btn px-4 py-2 rounded-lg bg-black/30 text-second hover:bg-main/10 hover:text-main transition-all" data-filter="design">UI/UX</button>
-      </div>
+<style>
+  /* Custom font for PIZZADUDEFATOUTLINE */
+  @font-face {
+    font-family: 'PizzaDudeFatOutline';
+    src: url('/fonts/PIZZADUDEFATOUTLINE.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  .font-pizza {
+    font-family: 'PizzaDudeFatOutline', monospace;
+  }
+  
+  /* Removed duplicate divider style */
+  
+  .hero-section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  
+  .hero-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+  }
+  
+  .title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  
+  .divider {
+    height: 1px;
+    width: 150px;
+    background-color: rgb(var(--color-main));
+    margin: 3rem 0;
+  }
+  
+  /* Desktop dropdown positioning */
+  .category-dropdown {
+    transform-origin: top center;
+    transition: opacity 0.2s, transform 0.2s;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+    pointer-events: none;
+  }
+  
+  .category-dropdown:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+  }
+  
+  .nested-dropdown {
+    transform-origin: left center;
+    transition: opacity 0.2s, transform 0.2s;
+    opacity: 0;
+    transform: translateX(-10px) scale(0.95);
+    pointer-events: none;
+  }
+  
+  .nested-dropdown:not(.hidden) {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: all;
+  }
+  
+  /* Grid selector styling */
+  .active-grid {
+    background-color: rgba(var(--color-main), 0.2) !important;
+    color: rgb(var(--color-main)) !important;
+    font-weight: 500;
+  }
+  
+  /* Better range slider styles */
+  .noUi-target {
+    border: none;
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 3px;
+    border-radius: 2px;
+  }
+  
+  .noUi-connect {
+    background-color: rgb(var(--color-main));
+  }
+  
+  .noUi-horizontal .noUi-handle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(var(--color-main), 0.5);
+    border: 1px solid rgb(var(--color-main));
+    cursor: grab;
+    top: -5px;
+    right: -6px;
+  }
+  
+  .noUi-horizontal .noUi-handle:focus {
+    box-shadow: 0 0 0 2px rgba(var(--color-main), 0.3);
+    outline: none;
+  }
+  
+  .noUi-handle:before, .noUi-handle:after {
+    display: none;
+  }
+  
+  .noUi-horizontal .noUi-handle:active {
+    cursor: grabbing;
+    background-color: rgba(var(--color-main), 0.5);
+  }
+  
+  .noUi-horizontal .noUi-handle:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Format button selection styling */
+  .format-button {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .format-selected {
+    background-color: rgba(var(--color-main), 0.2);
+    color: rgb(var(--color-main));
+    border-color: rgb(var(--color-main));
+  }
+  
+  /* Gallery item hover effect */
+  .gallery-item {
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .gallery-item img {
+    transition: all 0.5s ease;
+  }
+  
+  .gallery-item:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+  }
+</style>
+
+<PageLayout title="Galeria - Shelton Macave">
+  <div class="bg-background min-h-screen">
+    <!-- Hero Section with background image -->
+    <section class="hero-section" style="background-image: url('/images/pages/galeria.jpg'); background-size: cover; background-position: center; position: relative;">
+      <!-- Using direct background on the section as a last resort -->
       
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Projeto 1 -->
-        <div class="gallery-item web bg-black/20 overflow-hidden rounded-lg transition-all">
-          <div class="relative h-64 overflow-hidden group">
-            <div class="bg-main/10 w-full h-full flex items-center justify-center">
-              <span class="text-main font-grotesk">Imagem do Projeto</span>
-            </div>
-            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
-              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                <h3 class="text-xl font-grotesk text-main mb-2">Website Corporativo</h3>
-                <p class="text-second/90 mb-4">Redesenho completo do site institucional para melhorar conversões.</p>
-                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
-              </div>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-grotesk text-main">Website Corporativo</h3>
-            <p class="text-sm text-second/70">Desenvolvimento Web</p>
-          </div>
+      <!-- Content -->
+      <div class="container mx-auto px-6 text-center z-10">
+        <div class="title-container">
+          <h1 class="font-grotesk text-main text-6xl md:text-7xl lg:text-9xl">GALERIA</h1>
+          <div class="divider"></div>
+          <h1 class="font-pizza text-main text-4xl md:text-6xl lg:text-8xl">PICFOLIO</h1>
         </div>
         
-        <!-- Projeto 2 -->
-        <div class="gallery-item mobile bg-black/20 overflow-hidden rounded-lg transition-all">
-          <div class="relative h-64 overflow-hidden group">
-            <div class="bg-main/10 w-full h-full flex items-center justify-center">
-              <span class="text-main font-grotesk">Imagem do Projeto</span>
-            </div>
-            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
-              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                <h3 class="text-xl font-grotesk text-main mb-2">App de Finanças</h3>
-                <p class="text-second/90 mb-4">Aplicativo para controle financeiro pessoal com sincronização na nuvem.</p>
-                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
-              </div>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-grotesk text-main">App de Finanças</h3>
-            <p class="text-sm text-second/70">Desenvolvimento Mobile</p>
-          </div>
-        </div>
+        <p class="text-white text-xl md:text-2xl max-w-2xl mx-auto mb-24">
+          Uma coleção de fotografias capturadas ao longo da minha vida.
+        </p>
         
-        <!-- Projeto 3 -->
-        <div class="gallery-item design bg-black/20 overflow-hidden rounded-lg transition-all">
-          <div class="relative h-64 overflow-hidden group">
-            <div class="bg-main/10 w-full h-full flex items-center justify-center">
-              <span class="text-main font-grotesk">Imagem do Projeto</span>
-            </div>
-            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
-              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                <h3 class="text-xl font-grotesk text-main mb-2">Redesign de E-commerce</h3>
-                <p class="text-second/90 mb-4">Novo design para plataforma de e-commerce com foco em UX.</p>
-                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
-              </div>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-grotesk text-main">Redesign de E-commerce</h3>
-            <p class="text-sm text-second/70">UI/UX Design</p>
-          </div>
-        </div>
-        
-        <!-- Projeto 4 -->
-        <div class="gallery-item web bg-black/20 overflow-hidden rounded-lg transition-all">
-          <div class="relative h-64 overflow-hidden group">
-            <div class="bg-main/10 w-full h-full flex items-center justify-center">
-              <span class="text-main font-grotesk">Imagem do Projeto</span>
-            </div>
-            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
-              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                <h3 class="text-xl font-grotesk text-main mb-2">Painel Administrativo</h3>
-                <p class="text-second/90 mb-4">Dashboard para gestão interna com visualização de dados em tempo real.</p>
-                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
-              </div>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-grotesk text-main">Painel Administrativo</h3>
-            <p class="text-sm text-second/70">Desenvolvimento Web</p>
-          </div>
-        </div>
-        
-        <!-- Projeto 5 -->
-        <div class="gallery-item mobile bg-black/20 overflow-hidden rounded-lg transition-all">
-          <div class="relative h-64 overflow-hidden group">
-            <div class="bg-main/10 w-full h-full flex items-center justify-center">
-              <span class="text-main font-grotesk">Imagem do Projeto</span>
-            </div>
-            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
-              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                <h3 class="text-xl font-grotesk text-main mb-2">App de Delivery</h3>
-                <p class="text-second/90 mb-4">Aplicativo para entrega de refeições com tracking em tempo real.</p>
-                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
-              </div>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-grotesk text-main">App de Delivery</h3>
-            <p class="text-sm text-second/70">Desenvolvimento Mobile</p>
-          </div>
-        </div>
-        
-        <!-- Projeto 6 -->
-        <div class="gallery-item design bg-black/20 overflow-hidden rounded-lg transition-all">
-          <div class="relative h-64 overflow-hidden group">
-            <div class="bg-main/10 w-full h-full flex items-center justify-center">
-              <span class="text-main font-grotesk">Imagem do Projeto</span>
-            </div>
-            <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
-              <div class="text-center p-4 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                <h3 class="text-xl font-grotesk text-main mb-2">Design System</h3>
-                <p class="text-second/90 mb-4">Sistema de design unificado para produtos digitais da empresa.</p>
-                <button class="view-project bg-main text-white px-4 py-2 rounded-md hover:bg-main/80 transition-all">Ver Detalhes</button>
-              </div>
-            </div>
-          </div>
-          <div class="p-4">
-            <h3 class="text-lg font-grotesk text-main">Design System</h3>
-            <p class="text-sm text-second/70">UI/UX Design</p>
-          </div>
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-18 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgb(var(--color-main))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
         </div>
       </div>
-    </div>
+    </section>
     
-    <!-- Modal para visualização detalhada dos projetos -->
-    <div id="projectModal" class="fixed inset-0 bg-black/90 z-50 items-center justify-center hidden">
-      <div class="bg-background w-11/12 max-w-4xl rounded-lg overflow-hidden relative">
-        <button id="closeModal" class="absolute top-4 right-4 text-white hover:text-main">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        
-        <div class="p-6">
-          <h2 id="modalTitle" class="text-2xl font-grotesk text-main mb-4"></h2>
-          <div id="modalContent" class="text-second"></div>
+    <!-- Gallery Navigation and Filters -->
+    <section class="py-6 bg-background">
+      <div class="container mx-auto px-6">
+        <!-- Category Navigation Menu -->
+        <div class="mb-6">
+          <!-- Desktop Category Menu (visible on md screens and up) -->
+          <nav class="hidden md:flex justify-center space-x-4 items-center">
+            <!-- Minhas Category -->
+            <div class="category-item relative">
+              <button class="category-button flex items-center px-4 py-2 text-white bg-background/80 hover:bg-main/10 hover:text-main rounded-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="5"/>
+                  <path d="M20 21a8 8 0 1 0-16 0"/>
+                </svg>
+                Minhas
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </button>
+              <div class="category-dropdown absolute hidden w-48 mt-1 py-2 bg-background/80 backdrop-blur-md rounded-md shadow-lg z-50">
+                <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Geral</a>
+                <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Individual</a>
+                <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Acompanhado</a>
+              </div>
+            </div>
+            
+            <!-- Locais Category -->
+            <div class="category-item relative">
+              <button class="category-button flex items-center px-4 py-2 text-white bg-background/80 hover:bg-main/10 hover:text-main rounded-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Locais
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </button>
+              <div class="category-dropdown absolute hidden w-48 mt-1 py-2 bg-background/80 backdrop-blur-md rounded-md shadow-lg z-50">
+                <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Geral</a>
+                
+                <!-- Centro Cultural Dropdown -->
+                <div class="relative">
+                  <button class="nested-category-button flex justify-between items-center w-full px-4 py-2 text-white hover:bg-main/10 hover:text-main">
+                    Centro Cultural
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                  </button>
+                  <div class="nested-dropdown absolute hidden left-full top-0 w-48 py-2 bg-background/80 backdrop-blur-md rounded-md shadow-lg">
+                    <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Geral</a>
+                    <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Alemanha</a>
+                    <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">China</a>
+                    <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">França</a>
+                    <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Japão</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Eventos Category -->
+            <div class="category-item relative">
+              <button class="category-button flex items-center px-4 py-2 text-white bg-background/80 hover:bg-main/10 hover:text-main rounded-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                  <line x1="16" x2="16" y1="2" y2="6"/>
+                  <line x1="8" x2="8" y1="2" y2="6"/>
+                  <line x1="3" x2="21" y1="10" y2="10"/>
+                </svg>
+                Eventos
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </button>
+              <div class="category-dropdown absolute hidden w-48 mt-1 py-2 bg-background/80 backdrop-blur-md rounded-md shadow-lg z-50">
+                <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Geral</a>
+                
+                <!-- MOZDEVZ Dropdown -->
+                <div class="relative">
+                  <button class="nested-category-button flex justify-between items-center w-full px-4 py-2 text-white hover:bg-main/10 hover:text-main">
+                    MOZDEVZ
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                  </button>
+                  <div class="nested-dropdown absolute hidden left-full top-0 w-48 py-2 bg-background/80 backdrop-blur-md rounded-md shadow-lg">
+                    <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Geral</a>
+                    <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Além do Código</a>
+                    <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Datawave</a>
+                    <a href="#" class="block px-4 py-2 text-white hover:bg-main/10 hover:text-main">Devfest</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Aleatorias Category -->
+            <div class="category-item">
+              <button class="flex items-center px-4 py-2 text-white bg-background/80 hover:bg-main/10 hover:text-main rounded-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="8"/>
+                  <path d="m12.5 7.5-3 6.5 7-2-6 6 2-6-6 2 6-6.5Z"/>
+                </svg>
+                Aleatórias
+              </button>
+            </div>
+          </nav>
           
-          <div class="mt-6 bg-main/5 p-4 rounded-lg">
-            <h3 class="text-lg font-grotesk text-main mb-2">Tecnologias utilizadas</h3>
-            <div id="modalTags" class="flex flex-wrap gap-2"></div>
+          <!-- Mobile Category Menu (visible on smaller screens) -->
+          <div class="md:hidden flex justify-center">
+            <div class="category-item relative">
+              <button class="category-button flex items-center px-4 py-2 text-white bg-background/80 hover:bg-main/10 hover:text-main rounded-md transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="7" height="7" x="3" y="3" rx="1"/>
+                  <rect width="7" height="7" x="14" y="3" rx="1"/>
+                  <rect width="7" height="7" x="3" y="14" rx="1"/>
+                  <rect width="7" height="7" x="14" y="14" rx="1"/>
+                </svg>
+                Categorias
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </button>
+              <div class="category-dropdown absolute hidden w-56 mt-1 py-2 bg-background/80 backdrop-blur-md rounded-md shadow-lg z-50">
+                <!-- Minhas -->
+                <div class="px-4 py-2">
+                  <button class="nested-category-button flex justify-between items-center w-full text-white hover:bg-main/10 hover:text-main rounded-md px-2 py-1">
+                    <div class="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="5"/>
+                        <path d="M20 21a8 8 0 1 0-16 0"/>
+                      </svg>
+                      Minhas
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                  </button>
+                  <div class="nested-dropdown hidden pl-4 mt-1 border-l border-main/30">
+                    <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Geral</a>
+                    <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Individual</a>
+                    <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Acompanhado</a>
+                  </div>
+                </div>
+                
+                <!-- Locais -->
+                <div class="px-4 py-2">
+                  <button class="nested-category-button flex justify-between items-center w-full text-white hover:bg-main/10 hover:text-main rounded-md px-2 py-1">
+                    <div class="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                      </svg>
+                      Locais
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                  </button>
+                  <div class="nested-dropdown hidden pl-4 mt-1 border-l border-main/30">
+                    <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Geral</a>
+                    <div>
+                      <button class="deep-nested-button flex justify-between items-center w-full text-white hover:bg-main/10 hover:text-main rounded-md px-2 py-1">
+                        Centro Cultural
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                      </button>
+                      <div class="deep-nested-dropdown hidden pl-4 mt-1 border-l border-main/30">
+                        <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Geral</a>
+                        <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Alemanha</a>
+                        <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">China</a>
+                        <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">França</a>
+                        <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Japão</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Eventos -->
+                <div class="px-4 py-2">
+                  <button class="nested-category-button flex justify-between items-center w-full text-white hover:bg-main/10 hover:text-main rounded-md px-2 py-1">
+                    <div class="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                        <line x1="16" x2="16" y1="2" y2="6"/>
+                        <line x1="8" x2="8" y1="2" y2="6"/>
+                        <line x1="3" x2="21" y1="10" y2="10"/>
+                      </svg>
+                      Eventos
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                  </button>
+                  <div class="nested-dropdown hidden pl-4 mt-1 border-l border-main/30">
+                    <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Geral</a>
+                    <div>
+                      <button class="deep-nested-button flex justify-between items-center w-full text-white hover:bg-main/10 hover:text-main rounded-md px-2 py-1">
+                        MOZDEVZ
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                      </button>
+                      <div class="deep-nested-dropdown hidden pl-4 mt-1 border-l border-main/30">
+                        <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Geral</a>
+                        <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Além do Código</a>
+                        <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Datawave</a>
+                        <a href="#" class="block px-2 py-1 text-white hover:bg-main/10 hover:text-main rounded-md">Devfest</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Aleatorias -->
+                <div class="px-4 py-2">
+                  <a href="#" class="flex items-center text-white hover:bg-main/10 hover:text-main rounded-md px-2 py-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="8"/>
+                      <path d="m12.5 7.5-3 6.5 7-2-6 6 2-6-6 2 6-6.5Z"/>
+                    </svg>
+                    Aleatórias
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Grid Layout and Filter Controls -->
+        <div class="flex flex-wrap justify-between items-center mb-8">
+          <!-- Grid Layout Selector -->
+          <div class="relative group mb-4 md:mb-0">
+            <button class="flex items-center px-4 py-2 text-white bg-background/80 hover:bg-main/10 hover:text-main rounded-md transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="7" height="7" x="3" y="3" rx="1" />
+                <rect width="7" height="7" x="14" y="3" rx="1" />
+                <rect width="7" height="7" x="3" y="14" rx="1" />
+                <rect width="7" height="7" x="14" y="14" rx="1" />
+              </svg>
+              Grelha
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </button>
+            <div class="absolute hidden group-hover:block w-48 mt-1 py-2 bg-background/80 backdrop-blur-md rounded-md shadow-lg z-50">
+              <a href="#" class="grid-option flex items-center px-4 py-2 text-white hover:bg-main/10 hover:text-main" data-columns="1">
+                <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="18" height="18" x="3" y="3" rx="1" />
+                </svg>
+                1 × 1
+              </a>
+              <a href="#" class="grid-option flex items-center px-4 py-2 text-white hover:bg-main/10 hover:text-main" data-columns="2">
+                <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="8" height="18" x="3" y="3" rx="1" />
+                  <rect width="8" height="18" x="13" y="3" rx="1" />
+                </svg>
+                2 × 2
+              </a>
+              <a href="#" class="grid-option flex items-center px-4 py-2 text-white hover:bg-main/10 hover:text-main" data-columns="3">
+                <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="5" height="18" x="3" y="3" rx="1" />
+                  <rect width="5" height="18" x="9.5" y="3" rx="1" />
+                  <rect width="5" height="18" x="16" y="3" rx="1" />
+                </svg>
+                3 × 3
+              </a>
+              <a href="#" class="grid-option flex items-center px-4 py-2 text-white hover:bg-main/10 hover:text-main" data-columns="4">
+                <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="4" height="9" x="3" y="3" rx="1" />
+                  <rect width="4" height="9" x="8" y="3" rx="1" />
+                  <rect width="4" height="9" x="13" y="3" rx="1" />
+                  <rect width="4" height="9" x="18" y="3" rx="1" />
+                  <rect width="4" height="9" x="3" y="13" rx="1" />
+                  <rect width="4" height="9" x="8" y="13" rx="1" />
+                  <rect width="4" height="9" x="13" y="13" rx="1" />
+                  <rect width="4" height="9" x="18" y="13" rx="1" />
+                </svg>
+                4 × 4
+              </a>
+            </div>
+          </div>
+          
+          <!-- Filter Button (Drawer Trigger) -->
+          <button id="filterButton" class="flex items-center px-4 py-2 text-white bg-background/80 hover:bg-main/10 hover:text-main rounded-md transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            </svg>
+            Filtro
+          </button>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Gallery Section with Gradient Borders -->
+    <section class="relative px-6 py-12">
+      <div class="container mx-auto">
+        <!-- Scrollable Gallery Container -->
+        <div class="relative">
+          <!-- Top Gradient -->
+          <div class="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none"></div>
+          
+          <!-- Gallery Content -->
+          <div class="gallery-container h-[70vh] overflow-y-auto p-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="lightgallery">
+              <!-- Gallery items will be added here -->
+              <div class="rounded-lg overflow-hidden shadow-lg gallery-item">
+                <a href="/images/pages/galeria.jpg" class="block">
+                  <img 
+                    src="/images/pages/galeria.jpg" 
+                    alt="Galeria image" 
+                    class="w-full h-full object-cover aspect-square"
+                  />
+                </a>
+              </div>
+              
+              <div class="rounded-lg overflow-hidden shadow-lg gallery-item">
+                <a href="/images/pages/space.jpg" class="block">
+                  <img 
+                    src="/images/pages/space.jpg" 
+                    alt="Space image" 
+                    class="w-full h-full object-cover aspect-square"
+                  />
+                </a>
+              </div>
+              
+              <div class="rounded-lg overflow-hidden shadow-lg gallery-item">
+                <a href="/images/pages/moon.png" class="block">
+                  <img 
+                    src="/images/pages/moon.png" 
+                    alt="Moon image" 
+                    class="w-full h-full object-cover aspect-square"
+                  />
+                </a>
+              </div>
+              
+              <!-- Add more gallery items as needed -->
+              <div class="rounded-lg overflow-hidden shadow-lg gallery-item">
+                <a href="/images/pages/c1.png" class="block">
+                  <img 
+                    src="/images/pages/c1.png" 
+                    alt="C1 image" 
+                    class="w-full h-full object-cover aspect-square"
+                  />
+                </a>
+              </div>
+              
+              <div class="rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02]">
+                <a href="/images/pages/c2.png" class="block">
+                  <img 
+                    src="/images/pages/c2.png" 
+                    alt="C2 image" 
+                    class="w-full h-full object-cover aspect-square"
+                  />
+                </a>
+              </div>
+              
+              <div class="rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-[1.02]">
+                <a href="/images/pages/moonsurface.png" class="block">
+                  <img 
+                    src="/images/pages/moonsurface.png" 
+                    alt="Moon surface image" 
+                    class="w-full h-full object-cover aspect-square"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bottom Gradient -->
+          <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none"></div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Filter Drawer (Hidden by Default) -->
+    <div id="filterDrawer" class="fixed inset-0 z-50 overflow-hidden opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out">
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" id="drawerOverlay"></div>
+      <div class="fixed inset-y-0 right-0 flex max-w-full transform translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="w-screen max-w-sm border-l border-main/10">
+          <div class="flex h-full flex-col bg-background/95 backdrop-blur-md shadow-2xl">
+            <div class="px-6 py-4 border-b border-main/10">
+              <div class="flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-white">
+                  Filtros
+                </h2>
+                <button
+                  type="button"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-main/10 hover:text-main h-9 w-9"
+                  id="closeDrawerButton"
+                >
+                  <span class="sr-only">Fechar</span>
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4">
+                    <path d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="relative flex-1 px-6 py-6 overflow-auto">
+              <!-- Year Range Filter -->
+              <div class="mb-8">
+                <h3 class="text-md font-medium text-white mb-4">Intervalo de Anos</h3>
+                <div class="year-range relative">
+                  <div class="mb-2">
+                    <div id="year-slider" class="mb-6"></div>
+                  </div>
+                  
+                  <div class="flex justify-between">
+                    <span class="text-sm text-white" id="minYearValue">2006</span>
+                    <span class="text-sm text-white" id="maxYearValue">2025</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Image Format Filter -->
+              <div class="mb-8">
+                <h3 class="text-md font-medium text-white mb-4">Formato da Imagem</h3>
+                <div class="grid grid-cols-2 gap-3">
+                  <button class="format-button px-4 py-2 text-white border border-white/20 rounded-md hover:bg-main/10 hover:text-main hover:border-main transition-all">
+                    Paisagem
+                  </button>
+                  <button class="format-button px-4 py-2 text-white border border-white/20 rounded-md hover:bg-main/10 hover:text-main hover:border-main transition-all">
+                    Retrato
+                  </button>
+                  <button class="format-button px-4 py-2 text-white border border-white/20 rounded-md hover:bg-main/10 hover:text-main hover:border-main transition-all">
+                    Quadrado
+                  </button>
+                  <button class="format-button px-4 py-2 text-white border border-white/20 rounded-md hover:bg-main/10 hover:text-main hover:border-main transition-all">
+                    Panorama
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Clear Filters Button -->
+              <div class="mt-auto">
+                <button class="w-full px-4 py-3 bg-main/80 hover:bg-main text-white rounded-md transition-colors">
+                  Limpar Filtros
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -160,157 +647,278 @@ import PageLayout from '../layouts/PageLayout.astro';
   </div>
 </PageLayout>
 
-<script>
-  import { gsap } from 'gsap';
-  
+<!-- LightGallery.js with all required plugins -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery-bundle.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" />
+
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/lightgallery.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/plugins/zoom/lg-zoom.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/plugins/fullscreen/lg-fullscreen.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/plugins/hash/lg-hash.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/plugins/share/lg-share.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/plugins/rotate/lg-rotate.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
+
+<script lang="ts">
+  // Initialize LightGallery with all plugins
   document.addEventListener('DOMContentLoaded', () => {
-    // Filtro para a galeria
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        // Atualizar botões de filtro
-        filterButtons.forEach(btn => btn.classList.remove('active', 'bg-main', 'text-white'));
-        filterButtons.forEach(btn => btn.classList.add('bg-black/30', 'text-second'));
-        button.classList.remove('bg-black/30', 'text-second');
-        button.classList.add('active', 'bg-main', 'text-white');
-        
-        const filterValue = button.getAttribute('data-filter');
-        
-        // Filtrar itens
-        galleryItems.forEach(item => {
-          if (filterValue === 'all' || item.classList.contains(filterValue)) {
-            gsap.to(item, { 
-              opacity: 1, 
-              scale: 1, 
-              duration: 0.3,
-              ease: 'power1.out',
-              display: 'block' 
-            });
-          } else {
-            gsap.to(item, { 
-              opacity: 0, 
-              scale: 0.95, 
-              duration: 0.3,
-              ease: 'power1.out',
-              onComplete: () => {
-                item.style.display = 'none';
-              }
-            });
-          }
-        });
+    const lgElement = document.getElementById('lightgallery');
+    if (lgElement) {
+      window.lightGallery(lgElement, {
+        speed: 500,
+        download: false,
+        counter: true,
+        backdrop: true,
+        thumbnail: true,
+        animateThumb: true,
+        showThumbByDefault: false,
+        plugins: [
+          window.lgZoom,
+          window.lgThumbnail,
+          window.lgFullscreen,
+          window.lgHash,
+          window.lgShare,
+          window.lgRotate
+        ],
+        licenseKey: 'your-license-key', // Replace with your license or remove if using free version
+        mode: 'lg-fade',
       });
-    });
+    }
     
-    // Configuração do modal
-    const projectModal = document.getElementById('projectModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalContent = document.getElementById('modalContent');
-    const modalTags = document.getElementById('modalTags');
-    const closeModalButton = document.getElementById('closeModal');
-    const viewProjectButtons = document.querySelectorAll('.view-project');
+    // Grid selection functionality
+    const gridButtons = document.querySelectorAll('.grid-option');
+    const galleryGrid = document.getElementById('lightgallery');
     
-    // Conteúdo do projeto para o modal
-    const projectDetails = {
-      'Website Corporativo': {
-        description: 'Redesenho completo do site institucional para uma empresa de tecnologia. O projeto incluiu uma nova arquitetura de informação, design responsivo e otimização para SEO. O resultado foi um aumento de 40% nas conversões e 30% na taxa de permanência na página.',
-        tags: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Node.js']
-      },
-      'App de Finanças': {
-        description: 'Aplicativo móvel para controle financeiro pessoal com recursos de categorização de despesas, relatórios detalhados, metas financeiras e sincronização na nuvem. Disponível para iOS e Android, com mais de 50 mil downloads.',
-        tags: ['React Native', 'Firebase', 'Redux', 'GraphQL']
-      },
-      'Redesign de E-commerce': {
-        description: 'Projeto de redesign completo da experiência de compra para uma plataforma de e-commerce. O processo incluiu pesquisa com usuários, wireframes, protótipos interativos e testes de usabilidade. A implementação resultou em um aumento de 25% na taxa de conversão.',
-        tags: ['Figma', 'Adobe XD', 'Prototyping', 'User Research']
-      },
-      'Painel Administrativo': {
-        description: 'Dashboard administrativo com visualização de dados em tempo real para uma empresa de logística. O sistema inclui gráficos interativos, filtros avançados e relatórios customizáveis para tomada de decisão.',
-        tags: ['Vue.js', 'D3.js', 'Tailwind CSS', 'Express']
-      },
-      'App de Delivery': {
-        description: 'Aplicativo de entrega de refeições com funcionalidades de geolocalização, tracking em tempo real e sistema de pagamentos integrado. Desenvolvido para uma rede de restaurantes com mais de 30 estabelecimentos.',
-        tags: ['Flutter', 'Dart', 'Google Maps API', 'Stripe']
-      },
-      'Design System': {
-        description: 'Sistema de design unificado para uma empresa de telecomunicações, incluindo biblioteca de componentes, guia de estilo, documentação e exemplos de implementação. O sistema é utilizado em mais de 10 produtos digitais da empresa.',
-        tags: ['Storybook', 'Sketch', 'Zeplin', 'Style Dictionary']
-      }
-    };
-    
-    // Abrir modal
-    viewProjectButtons.forEach(button => {
+    gridButtons.forEach(button => {
       button.addEventListener('click', (e) => {
-        const projectName = e.target.closest('.gallery-item').querySelector('h3').textContent;
-        const project = projectDetails[projectName];
+        e.preventDefault(); // Prevent page jump
         
-        modalTitle.textContent = projectName;
-        modalContent.innerHTML = `<p>${project.description}</p>`;
+        // Remove active class from all buttons
+        gridButtons.forEach(btn => btn.classList.remove('active-grid'));
         
-        modalTags.innerHTML = '';
-        project.tags.forEach(tag => {
-          const tagElement = document.createElement('span');
-          tagElement.className = 'bg-main/20 text-main px-3 py-1 rounded-full text-sm';
-          tagElement.textContent = tag;
-          modalTags.appendChild(tagElement);
-        });
+        // Add active class to clicked button
+        button.classList.add('active-grid');
         
-        projectModal.classList.remove('hidden');
-        projectModal.classList.add('flex');
-        gsap.from(projectModal.querySelector('.bg-background'), { 
-          opacity: 0, 
-          y: 20, 
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      });
-    });
-    
-    // Fechar modal
-    closeModalButton.addEventListener('click', () => {
-      gsap.to(projectModal.querySelector('.bg-background'), { 
-        opacity: 0, 
-        y: 20, 
-        duration: 0.2,
-        ease: 'power2.in',
-        onComplete: () => {
-          projectModal.classList.add('hidden');
+        // Get column count from data attribute
+        const columns = button.getAttribute('data-columns');
+        
+        // Update gallery grid classes
+        if (galleryGrid) {
+          // Remove all column classes first
+          galleryGrid.classList.remove(
+            'grid-cols-1',
+            'sm:grid-cols-1',
+            'sm:grid-cols-2',
+            'sm:grid-cols-3', 
+            'md:grid-cols-1',
+            'md:grid-cols-2',
+            'md:grid-cols-3', 
+            'md:grid-cols-4',
+            'lg:grid-cols-1',
+            'lg:grid-cols-2',
+            'lg:grid-cols-3',
+            'lg:grid-cols-4'
+          );
+          
+          // Add appropriate classes based on selection
+          switch(columns) {
+            case '1':
+              galleryGrid.classList.add('grid-cols-1');
+              break;
+            case '2':
+              galleryGrid.classList.add('grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-2', 'lg:grid-cols-2');
+              break;
+            case '3':
+              galleryGrid.classList.add('grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-3');
+              break;
+            case '4':
+              galleryGrid.classList.add('grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-4');
+              break;
+            default:
+              galleryGrid.classList.add('grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-3');
+          }
         }
       });
     });
     
-    // Fechar modal ao clicar fora
-    projectModal.addEventListener('click', (e) => {
-      if (e.target === projectModal) {
-        closeModalButton.click();
+    // Filter drawer functionality
+    const filterButton = document.getElementById('filterButton');
+    const filterDrawer = document.getElementById('filterDrawer');
+    const closeDrawerButton = document.getElementById('closeDrawerButton');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    
+    if (filterButton && filterDrawer && closeDrawerButton && drawerOverlay) {
+      // Get drawer slide element (direct child div with transform)
+      const drawerSlide = filterDrawer.querySelector('.fixed.inset-y-0.right-0');
+      
+      const openDrawer = (e) => {
+        if (e) e.preventDefault(); // Prevent page jump
+        
+        // Make drawer visible but keep it offscreen
+        filterDrawer.classList.remove('pointer-events-none');
+        filterDrawer.classList.add('opacity-100');
+        
+        // Small delay to ensure opacity transition works
+        setTimeout(() => {
+          // Slide in from the right
+          if (drawerSlide) drawerSlide.classList.remove('translate-x-full');
+          document.body.style.overflow = 'hidden';
+        }, 10);
+      };
+      
+      const closeDrawer = () => {
+        // First slide out to the right
+        if (drawerSlide) drawerSlide.classList.add('translate-x-full');
+        
+        // Wait for animation to complete before hiding completely
+        setTimeout(() => {
+          filterDrawer.classList.remove('opacity-100');
+          filterDrawer.classList.add('pointer-events-none');
+          document.body.style.overflow = '';
+        }, 300); // Match the CSS transition duration
+      };
+      
+      filterButton.addEventListener('click', openDrawer);
+      closeDrawerButton.addEventListener('click', closeDrawer);
+      drawerOverlay.addEventListener('click', closeDrawer);
+      
+      // Add ESC key support
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && 
+            filterDrawer && 
+            !filterDrawer.classList.contains('pointer-events-none')) {
+          closeDrawer();
+        }
+      });
+    }
+    
+    // Year range slider functionality with noUiSlider
+    const yearSlider = document.getElementById('year-slider');
+    const minYearValue = document.getElementById('minYearValue');
+    const maxYearValue = document.getElementById('maxYearValue');
+    
+    if (yearSlider && minYearValue && maxYearValue && window.noUiSlider) {
+      // Initialize noUiSlider
+      window.noUiSlider.create(yearSlider, {
+        start: [2006, 2025],
+        connect: true,
+        step: 1,
+        range: {
+          'min': 2006,
+          'max': 2025
+        },
+        format: {
+          to: function(value) {
+            return Math.round(value);
+          },
+          from: function(value) {
+            return Math.round(value);
+          }
+        }
+      });
+      
+      // Update display values when slider changes
+      yearSlider.noUiSlider.on('update', function(values, handle) {
+        if (handle === 0) {
+          minYearValue.textContent = values[0].toString();
+        } else {
+          maxYearValue.textContent = values[1].toString();
+        }
+      });
+    }
+    
+    // Multi-select for image format buttons
+    const formatButtons = document.querySelectorAll('.format-button');
+    formatButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent page jump
+        button.classList.toggle('format-selected');
+      });
+    });
+    
+    // Category dropdown functionality
+    document.querySelectorAll('.category-button').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation(); // Prevent click from bubbling to document
+        
+        const dropdown = button.nextElementSibling;
+        if (dropdown && dropdown.classList.contains('category-dropdown')) {
+          // Close all other dropdowns at the same level first
+          const allDropdowns = document.querySelectorAll('.category-dropdown:not(.hidden)');
+          allDropdowns.forEach(otherDropdown => {
+            if (otherDropdown !== dropdown) {
+              otherDropdown.classList.add('hidden');
+            }
+          });
+          
+          // Toggle this dropdown
+          dropdown.classList.toggle('hidden');
+        }
+      });
+    });
+    
+    // Nested category dropdown functionality
+    document.querySelectorAll('.nested-category-button').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation(); // Prevent click from bubbling to parent dropdown
+        
+        const nestedDropdown = button.nextElementSibling;
+        if (nestedDropdown && nestedDropdown.classList.contains('nested-dropdown')) {
+          // Close all other nested dropdowns first
+          const parentItem = button.closest('.category-dropdown');
+          if (parentItem) {
+            const allNestedDropdowns = parentItem.querySelectorAll('.nested-dropdown:not(.hidden)');
+            allNestedDropdowns.forEach(otherDropdown => {
+              if (otherDropdown !== nestedDropdown) {
+                otherDropdown.classList.add('hidden');
+              }
+            });
+          }
+          
+          // Toggle this nested dropdown
+          nestedDropdown.classList.toggle('hidden');
+        }
+      });
+    });
+    
+    // Deep nested dropdown functionality
+    document.querySelectorAll('.deep-nested-button').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation(); // Prevent click from bubbling
+        
+        const deepNestedDropdown = button.nextElementSibling;
+        if (deepNestedDropdown && deepNestedDropdown.classList.contains('deep-nested-dropdown')) {
+          // Toggle this deep nested dropdown
+          deepNestedDropdown.classList.toggle('hidden');
+        }
+      });
+    });
+    
+    // Close all dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      
+      // If the click is not inside any dropdown or button
+      if (target && 
+          !target.closest('.category-item') && 
+          !target.closest('.nested-dropdown') && 
+          !target.closest('.deep-nested-dropdown')) {
+        // Close all dropdowns
+        document.querySelectorAll('.category-dropdown:not(.hidden)').forEach(dropdown => {
+          dropdown.classList.add('hidden');
+        });
       }
     });
     
-    // Animações iniciais
-    gsap.from('h1', { 
-      opacity: 0, 
-      y: -30,
-      duration: 0.8,
-      ease: 'power2.out'
-    });
-    
-    gsap.from('.filter-btn', { 
-      opacity: 0, 
-      y: 20,
-      stagger: 0.1,
-      duration: 0.5,
-      delay: 0.3,
-      ease: 'power2.out'
-    });
-    
-    gsap.from('.gallery-item', { 
-      opacity: 0, 
-      y: 30,
-      stagger: 0.1,
-      duration: 0.6,
-      delay: 0.5,
-      ease: 'power2.out'
+    // Prevent clicks inside nested dropdowns from closing parent dropdowns
+    document.querySelectorAll('.nested-dropdown, .deep-nested-dropdown').forEach(dropdown => {
+      dropdown.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent click from bubbling to document
+      });
     });
   });
 </script>

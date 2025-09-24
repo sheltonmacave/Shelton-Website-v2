@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import sheltonLogo from '../assets/SWv2.png';
 ---
 
-<header id="navbar" class="sticky top-0 z-50 w-full border-b border-second/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 touch-none">
+<header id="navbar" class="sticky top-0 z-50 w-full border-b border-second/20 bg-background/50 backdrop-blur-md backdrop-saturate-150 supports-[backdrop-filter]:bg-background/30 touch-none">
   <div class="container flex h-20 items-center justify-between px-6 md:px-16">
     <!-- Logo on the left -->
     <div class="flex">
@@ -15,7 +15,7 @@ import sheltonLogo from '../assets/SWv2.png';
     <!-- Navigation Menu on the right -->
     <div class="relative group">
       <!-- Menu Trigger Button -->
-      <button id="menuTrigger" class="inline-flex items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-transparent hover:shadow-md focus:outline-none active:translate-y-0.5">
+  <button id="menuTrigger" class="inline-flex items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-transparent hover:shadow-md focus:outline-none active:translate-y-0.5" type="button">
         Menu
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180">
           <path d="m6 9 6 6 6-6"></path>
@@ -23,7 +23,7 @@ import sheltonLogo from '../assets/SWv2.png';
       </button>
       
       <!-- Dropdown Content -->
-      <div id="menuContent" class="hidden absolute right-0 mt-7 w-[90vw] max-w-[320px] md:max-w-[500px] rounded-md border border-second/20 bg-background/80 p-4 shadow-lg backdrop-blur-md backdrop-saturate-150 supports-[backdrop-filter]:bg-background/60">
+  <div id="menuContent" class="hidden absolute right-0 mt-7 w-[90vw] max-w-[320px] md:max-w-[500px] rounded-md border border-second/20 p-4 shadow-lg" style="backdrop-filter: blur(16px) saturate(150%); background: rgba(17,17,17,0.85);">
         
         <ul class="grid gap-3">
           <!-- Home Page -->
@@ -112,90 +112,106 @@ import sheltonLogo from '../assets/SWv2.png';
 </header>
 
 <script>
-  // Toggle dropdown menu
+  // Toggle dropdown menu and open on hover
   document.addEventListener('DOMContentLoaded', () => {
     const menuTrigger = document.getElementById('menuTrigger');
     const menuContent = document.getElementById('menuContent');
-    
     if (menuTrigger && menuContent) {
       const parentGroup = menuTrigger.closest('.group');
-      
-      if (parentGroup) {
-        // Positioning logic for mobile
-        const adjustMenuPosition = () => {
-          // Reset any previous position first
-          menuContent.style.right = '';
-          
-          // On small screens, adjust position to be centered
-          if (window.innerWidth < 640) {
-            const buttonRect = menuTrigger.getBoundingClientRect();
-            const buttonCenter = buttonRect.left + buttonRect.width / 2;
-            const menuWidth = menuContent.offsetWidth;
-            
-            // Calculate right position to center the menu
-            const viewportWidth = window.innerWidth;
-            const rightPosition = Math.max(0, viewportWidth - (buttonCenter + menuWidth/2));
-            
-            menuContent.style.right = `${rightPosition}px`;
-          }
-        };
-        
-        // Get chevron element
-        const menuChevron = menuTrigger.querySelector('svg');
-        
-        menuTrigger.addEventListener('click', () => {
-          menuContent.classList.toggle('hidden');
-          parentGroup.classList.toggle('data-[state=open]');
-          
-          // Toggle chevron rotation on click
-          if (menuChevron) {
-            if (menuContent.classList.contains('hidden')) {
-              menuChevron.style.transform = '';
-            } else {
-              menuChevron.style.transform = 'rotate(180deg)';
-            }
-            menuChevron.style.transition = 'transform 0.3s ease';
-          }
-          
-          if (!menuContent.classList.contains('hidden')) {
-            adjustMenuPosition();
-            
-            // GSAP animation for the menu content
-            import('gsap').then(({ gsap }) => {
-              gsap.from('#menuContent', {
-                y: -10,
-                opacity: 0,
-                duration: 0.3,
-                ease: 'power2.out'
-              });
-              
-              gsap.from('#menuContent li', {
-                opacity: 0,
-                y: 5,
-                stagger: 0.05,
-                duration: 0.3,
-                delay: 0.1
-              });
-            });
-          }
-        });
-        
-        // Adjust on resize
-        window.addEventListener('resize', () => {
-          if (!menuContent.classList.contains('hidden')) {
-            adjustMenuPosition();
-          }
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (event) => {
-          const target = event.target as Node;
-          if (target && !parentGroup.contains(target)) {
+      if (!parentGroup) return;
+      // Positioning logic for mobile
+      const adjustMenuPosition = () => {
+        menuContent.style.right = '';
+        if (window.innerWidth < 640) {
+          const buttonRect = menuTrigger.getBoundingClientRect();
+          const buttonCenter = buttonRect.left + buttonRect.width / 2;
+          const menuWidth = menuContent.offsetWidth;
+          const viewportWidth = window.innerWidth;
+          const rightPosition = Math.max(0, viewportWidth - (buttonCenter + menuWidth/2));
+          menuContent.style.right = `${rightPosition}px`;
+        }
+      };
+      // Get chevron element
+      const menuChevron = menuTrigger.querySelector('svg');
+      // Open/close logic
+  let closeTimeout: ReturnType<typeof setTimeout> | null = null;
+      const openMenu = () => {
+        if (closeTimeout) {
+          clearTimeout(closeTimeout);
+          closeTimeout = null;
+        }
+        menuContent.classList.remove('hidden');
+        parentGroup.classList.add('data-[state=open]');
+        if (menuChevron) menuChevron.style.transform = 'rotate(180deg)';
+        if (menuChevron) menuChevron.style.transition = 'transform 0.3s ease';
+        adjustMenuPosition();
+      };
+      const closeMenu = () => {
+        if (closeTimeout) {
+          clearTimeout(closeTimeout);
+        }
+        closeTimeout = setTimeout(() => {
+          // Só fecha se o mouse não estiver sobre o botão ou dropdown
+          if (!menuTrigger.matches(':hover') && !menuContent.matches(':hover')) {
             menuContent.classList.add('hidden');
             parentGroup.classList.remove('data-[state=open]');
+            if (menuChevron) menuChevron.style.transform = '';
           }
+        }, 2000);
+      };
+      // Fecha imediatamente (sem delay)
+      const closeMenuImmediate = () => {
+        if (closeTimeout) {
+          clearTimeout(closeTimeout);
+          closeTimeout = null;
+        }
+        menuContent.classList.add('hidden');
+        parentGroup.classList.remove('data-[state=open]');
+        if (menuChevron) menuChevron.style.transform = '';
+      };
+      menuTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (menuContent.classList.contains('hidden')) {
+          openMenu();
+        } else {
+          closeMenuImmediate();
+        }
+      });
+      // Open on hover
+      menuTrigger.addEventListener('mouseenter', openMenu);
+      menuContent.addEventListener('mouseenter', openMenu);
+      parentGroup.addEventListener('mouseleave', closeMenu);
+      menuContent.addEventListener('mouseleave', closeMenu);
+      // Fecha imediatamente ao clicar fora
+      document.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!(target instanceof Node) || !parentGroup.contains(target)) {
+          closeMenuImmediate();
+        }
+      });
+      // Adjust on resize
+      window.addEventListener('resize', () => {
+        if (!menuContent.classList.contains('hidden')) {
+          adjustMenuPosition();
+        }
+      });
+      // GSAP animation for the menu content
+      adjustMenuPosition();
+      import('gsap').then(({ gsap }) => {
+        gsap.from('#menuContent', {
+          y: -10,
+          opacity: 0,
+          duration: 0.3,
+          ease: 'power2.out'
         });
-      }
+        gsap.from('#menuContent li', {
+          opacity: 0,
+          y: 5,
+          stagger: 0.05,
+          duration: 0.3,
+          delay: 0.1
+        });
+      });
     }
     
     // Animation for the header

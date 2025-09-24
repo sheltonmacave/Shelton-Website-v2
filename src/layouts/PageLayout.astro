@@ -13,15 +13,14 @@ const { title, description = "Site pessoal do Shelton Macave, desenvolvedor e IT
 
 <Layout title={title}>
   <meta slot="head" name="description" content={description} />
-  
   <div class="min-h-screen flex flex-col">
-    <Navbar />
-    
-    <main class="flex-grow">
+    <div style="position:fixed;top:0;left:0;width:100%;z-index:50;pointer-events:auto;">
+      <Navbar />
+    </div>
+    <main class="flex-grow relative">
       <slot />
     </main>
-    
-        <Footer />
+    <Footer />
   </div>
 </Layout>
   </body>

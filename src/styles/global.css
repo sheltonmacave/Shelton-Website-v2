@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 /* Tailwind directives removed for standard CSS compatibility */
 
 /* Space Grotesk local font */

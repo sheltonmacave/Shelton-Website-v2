@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import sheltonLogo from '../assets/SWv2.png';
 ---
 
-<footer class="footer-gradient text-white py-12 mt-16">
+<footer class="footer-gradient text-white py-12">
   <div class="container mx-auto px-6 md:px-16">
     <!-- Quote -->
     <div class="flex flex-col items-center justify-center mb-10 text-center">
@@ -53,7 +53,7 @@ import sheltonLogo from '../assets/SWv2.png';
     
     <!-- Copyright -->
     <div class="copyright text-center text-white/70 text-sm">
-      © 2025 Shelton Macave. Todos os direitos reservados.
+      © 2025 SHELTON MACAVE<br>Todos os direitos reservados.
     </div>
   </div>
 </footer>
@@ -61,7 +61,9 @@ import sheltonLogo from '../assets/SWv2.png';
 <style>
   /* Gradient para o footer - transição de 20% do background para preto */
   .footer-gradient {
-    background-image: linear-gradient(to bottom, #2A1A12 0%, black 40%);
+    background-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 40%, black 50%);
+    position: relative;
+    z-index: 1;
   }
   
   /* Animações do footer quando ele entra na viewport */
@@ -70,7 +72,7 @@ import sheltonLogo from '../assets/SWv2.png';
       view-timeline-name: --footer-timeline;
       animation-timeline: --footer-timeline;
       animation-name: footer-reveal;
-      animation-range: entry 10% cover 30%;
+      animation-range: entry 5% cover 20%;
       animation-fill-mode: both;
     }
     

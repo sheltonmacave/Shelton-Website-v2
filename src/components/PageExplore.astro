@@ -1,0 +1,523 @@
+---
+import { Button } from "./ui/button";
+
+const pages = [
+  {
+    title: "Sobre Mim",
+    description: "Conheça mais sobre minha trajetória, formação e experiência profissional na área de tecnologia e design.",
+    image: "/images/pages/c1.png",
+    href: "/sobre"
+  },
+  {
+    title: "Carreiras",
+    description: "Explore minha jornada profissional, projetos desenvolvidos e áreas de especialização.",
+    image: "/images/pages/c2.png",
+    href: "/carreiras"
+  },
+  {
+    title: "Galeria",
+    description: "Veja meus projetos, designs e trabalhos criativos desenvolvidos para diversos clientes e setores.",
+    image: "/images/pages/c1.png",
+    href: "/galeria"
+  },
+  {
+    title: "Contactos",
+    description: "Entre em contacto para discutir projetos, colaborações ou oportunidades profissionais.",
+    image: "/images/pages/c2.png",
+    href: "/contactos"
+  }
+];
+---
+
+<style>
+  /* Simplified carousel styles for consistency */
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  
+  .carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+  }
+  
+  .slide {
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 100%;
+    padding: 0 0.75rem;
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  /* Carousel slides sempre ocupam 100% da largura do container */
+  .slide {
+    width: 100%;
+  }
+  
+  /* Em todas as resoluções, o carousel está alinhado à esquerda */
+  .carousel-container {
+    margin-left: 0;
+  }
+  
+  /* Media query para telas menores (responsivo) */
+  @media (max-width: 768px) {
+    /* Reajustar para layout vertical em telas pequenas */
+    #explore .container > div {
+      flex-direction: column;
+    }
+    
+    #explore .container > div > div {
+      width: 100% !important; /* Forçar largura total em telas pequenas */
+      margin-bottom: 2rem;
+    }
+    
+    #page-details {
+      text-align: center;
+      align-items: center;
+    }
+  }
+  
+  .card {
+    border: 1px solid rgba(var(--color-main), 0.2);
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 0.75rem;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  
+  .card.active {
+    border-color: rgba(var(--color-main), 0.6);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    transform: scale(1);
+    opacity: 1;
+  }
+  
+  .card-image {
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+  }
+  
+  .background-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.7s ease-in-out;
+    opacity: 0;
+  }
+  
+  .background-image.active {
+    opacity: 0.2;
+  }
+  
+  .background-blur {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(3px);
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  
+  .navigation-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(var(--color-main), 0.3);
+    color: rgba(var(--color-main), 1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .navigation-button:hover {
+    background-color: rgba(var(--color-main), 0.1);
+    transform: scale(1.05);
+  }
+  
+  .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: rgba(var(--color-main), 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .dot.active {
+    background-color: rgba(var(--color-main), 1);
+  }
+  
+  .page-details {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .page-details.transitioning {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+</style>
+
+<section id="explore" class="relative min-h-screen flex flex-col overflow-hidden">
+  <!-- Dynamic background images -->
+  {pages.map((page, index) => (
+    <div 
+      class={`background-image ${index === 0 ? 'active' : ''}`} 
+      id={`bg-image-${index}`} 
+      style={`background-image: url('${page.image}');`}>
+    </div>
+  ))}
+  <div class="background-blur"></div>
+  
+  <div class="container mx-auto px-4 py-12 relative z-10 flex flex-col">
+    <h2 class="text-3xl md:text-4xl font-grotesk text-main text-center mb-8">Explore Mais</h2>
+    
+    <div class="flex flex-row gap-8 items-center">
+      <!-- Carousel posicionado à esquerda (60%) -->
+      <div class="w-[60%]">
+        <div class="carousel-container" id="pages-carousel">
+          <div class="carousel" id="carousel">
+            {pages.map((page, index) => (
+              <div class="slide" data-index={index}>
+                <div class={`card ${index === 0 ? 'active' : ''}`}>
+                  <div class="card-image">
+                    <img 
+                      src={page.image} 
+                      alt={page.title} 
+                      class="object-cover w-full h-full"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="p-4">
+                    <h3 class="font-grotesk text-2xl font-semibold leading-none tracking-tight text-main">{page.title}</h3>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div class="flex justify-center gap-4 mt-6">
+            <button class="navigation-button prev-button" aria-label="Slide anterior">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                <path d="m15 18-6-6 6-6"/>
+              </svg>
+            </button>
+            <div class="dots-container flex justify-center gap-2">
+              {pages.map((_, index) => (
+                <button class={`dot ${index === 0 ? 'active' : ''}`} data-index={index} aria-label={`Página ${index + 1}`}></button>
+              ))}
+            </div>
+            <button class="navigation-button next-button" aria-label="Próximo slide">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Conteúdo posicionado à direita (40%) -->
+      <div class="w-[40%] flex flex-col items-start text-left page-details" id="page-details">
+        <h3 class="text-2xl lg:text-3xl font-grotesk text-main mb-4 lg:mb-6">{pages[0].title}</h3>
+        <p class="text-second/90 mb-6 lg:mb-8 lg:text-lg max-w-md">{pages[0].description}</p>
+        <a href={pages[0].href} class="bg-main hover:bg-main/90 text-white px-6 py-3 rounded-md transition-all transform hover:scale-105">
+          Visitar Página
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Pages data
+    const pages = [
+      {
+        title: "Sobre Mim",
+        description: "Conheça mais sobre minha trajetória, formação e experiência profissional na área de tecnologia e design.",
+        image: "/images/pages/c1.png",
+        href: "/sobre"
+      },
+      {
+        title: "Carreiras",
+        description: "Explore minha jornada profissional, projetos desenvolvidos e áreas de especialização.",
+        image: "/images/pages/c2.png",
+        href: "/carreiras"
+      },
+      {
+        title: "Galeria",
+        description: "Veja meus projetos, designs e trabalhos criativos desenvolvidos para diversos clientes e setores.",
+        image: "/images/pages/c1.png",
+        href: "/galeria"
+      },
+      {
+        title: "Contactos",
+        description: "Entre em contacto para discutir projetos, colaborações ou oportunidades profissionais.",
+        image: "/images/pages/c2.png",
+        href: "/contactos"
+      }
+    ];
+    
+    // Get all required elements
+    const carouselEl = document.getElementById("carousel") as HTMLElement | null;
+    const cardsEls = document.querySelectorAll(".card");
+    const slidesEls = document.querySelectorAll(".slide");
+    const dotsEls = document.querySelectorAll(".dot");
+    const prevBtn = document.querySelector(".prev-button");
+    const nextBtn = document.querySelector(".next-button");
+    const pageDetailsEl = document.getElementById("page-details");
+    const backgroundImagesEls = document.querySelectorAll(".background-image");
+    
+    // Verify elements exist
+    if (!carouselEl || slidesEls.length === 0 || !prevBtn || !nextBtn || !pageDetailsEl) {
+      console.error("Missing required elements for carousel");
+      return;
+    }
+    
+    let currentIndex = 0;
+    const totalSlides = slidesEls.length;
+    const autoplayDelay = 5000;
+    let autoplayTimer: number;
+    let isAnimating = false;
+    
+    // Initialize carousel
+    function initCarousel() {
+      // Mark first card as active
+      if (cardsEls[0]) {
+        cardsEls[0].classList.add("active");
+      }
+      
+      // Mark first background as active
+      if (backgroundImagesEls[0]) {
+        backgroundImagesEls[0].classList.add("active");
+      }
+      
+      // Set initial position
+      updateCarouselPosition();
+      
+      // Start autoplay
+      startAutoplay();
+    }
+    
+    // Update carousel position
+    function updateCarouselPosition() {
+      // Get carousel width
+      const slideWidth = slidesEls[0]?.clientWidth || 0;
+      
+      // Calculate position - simplesmente mover para o slide ativo
+      const offset = -currentIndex * slideWidth;
+      
+      // Apply transform
+      if (carouselEl) {
+        carouselEl.style.transform = `translateX(${offset}px)`;
+      }
+    }
+    
+    // Navigate to specific slide
+    function goToSlide(index: number) {
+      if (isAnimating) return;
+      isAnimating = true;
+      
+      // Reset autoplay
+      clearInterval(autoplayTimer);
+      
+      // Calculate index with wrap-around
+      if (index < 0) {
+        currentIndex = totalSlides - 1;
+      } else if (index >= totalSlides) {
+        currentIndex = 0;
+      } else {
+        currentIndex = index;
+      }
+      
+      // Update active states
+      updateActiveStates();
+      
+      // Update carousel position
+      updateCarouselPosition();
+      
+      // Update page details
+      updatePageDetails();
+      
+      // Restart autoplay
+      startAutoplay();
+      
+      // Reset animation flag after transition
+      setTimeout(() => {
+        isAnimating = false;
+      }, 500);
+    }
+    
+    // Update active states for cards, dots, and backgrounds
+    function updateActiveStates() {
+      // Update cards
+      cardsEls.forEach((card, i) => {
+        if (i === currentIndex) {
+          card.classList.add("active");
+        } else {
+          card.classList.remove("active");
+        }
+      });
+      
+      // Update dots
+      dotsEls.forEach((dot, i) => {
+        if (i === currentIndex) {
+          dot.classList.add("active");
+        } else {
+          dot.classList.remove("active");
+        }
+      });
+      
+      // Update backgrounds
+      backgroundImagesEls.forEach((bg, i) => {
+        if (i === currentIndex) {
+          bg.classList.add("active");
+        } else {
+          bg.classList.remove("active");
+        }
+      });
+    }
+    
+    // Update page details
+    function updatePageDetails() {
+      // Null check for pageDetailsEl
+      if (!pageDetailsEl) return;
+      // Get elements
+      const titleEl = pageDetailsEl.querySelector("h3");
+      const descEl = pageDetailsEl.querySelector("p");
+      const linkEl = pageDetailsEl.querySelector("a");
+      
+      if (!titleEl || !descEl || !linkEl) return;
+      
+      // Fade out
+      pageDetailsEl.classList.add("transitioning");
+      
+      // Update content after fade out
+      setTimeout(() => {
+        titleEl.textContent = pages[currentIndex].title;
+        descEl.textContent = pages[currentIndex].description;
+        linkEl.setAttribute("href", pages[currentIndex].href);
+        
+        // Fade back in
+        pageDetailsEl.classList.remove("transitioning");
+      }, 300);
+    }
+    
+    // Autoplay functions
+    function startAutoplay() {
+      autoplayTimer = window.setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, autoplayDelay);
+    }
+    
+    // Event listeners
+    prevBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      goToSlide(currentIndex - 1);
+    });
+    
+    nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      goToSlide(currentIndex + 1);
+    });
+    
+    dotsEls.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        goToSlide(i);
+      });
+    });
+    
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") goToSlide(currentIndex - 1);
+      if (e.key === "ArrowRight") goToSlide(currentIndex + 1);
+    });
+    
+    // Touch swipe support
+    const carouselContainer = document.getElementById("pages-carousel");
+    let touchStartX = 0;
+    
+    if (carouselContainer) {
+      carouselContainer.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      
+      carouselContainer.addEventListener("touchend", (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        
+        // Minimum distance for swipe
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            // Swipe left, go next
+            goToSlide(currentIndex + 1);
+          } else {
+            // Swipe right, go previous
+            goToSlide(currentIndex - 1);
+          }
+        }
+      }, { passive: true });
+    }
+    
+    // Window resize handler
+    window.addEventListener("resize", () => {
+      updateCarouselPosition();
+    });
+    
+    // Setup animations
+    function setupAnimations() {
+      gsap.from("#explore h2", { 
+        opacity: 0, 
+        y: 20,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#explore",
+          start: "top 80%"
+        }
+      });
+      
+      gsap.from(".card", { 
+        opacity: 0, 
+        y: 30,
+        stagger: 0.1,
+        duration: 0.5,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#explore",
+          start: "top 70%"
+        }
+      });
+      
+      gsap.from("#page-details", {
+        opacity: 0,
+        x: 20,
+        duration: 0.7,
+        delay: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#explore",
+          start: "top 70%"
+        }
+      });
+    }
+    
+    // Initialize
+    initCarousel();
+    setupAnimations();
+  });
+</script>
